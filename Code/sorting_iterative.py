@@ -25,6 +25,7 @@ def swap_adjacent_items(items, left_index, right_index):
     right_item = items[right_index]
     items[left_index] = right_item
     items[right_index] = left_item
+    return items
 
 
 def bubble_sort(items):
@@ -32,8 +33,25 @@ def bubble_sort(items):
     repeating until all items are in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Swap adjacent items that are out of order
+    # edge case: if there's one item only, return True early
+    if len(items) == 1:
+        return True
+    # everything to the right of this index is assumed to be sorted
+    sorted_right = len(items)
+    # number of swaps on a given pass
+    num_swaps = 0
+    while sorted_right > 0:
+        # num_swaps = 0
+        for i in range(1, sorted_right):
+            # num_swaps = 0
+            left_index = i - 1
+            right_index = i
+            # make swaps between adjacent elements as needed
+            if items[left_index] > items[right_index]:
+                items = swap_adjacent_items(items, left_index, right_index)
+                num_swaps += 1
+        # slowly move marker for where sorted portion of items being
+        sorted_right -= 1
 
 
 def selection_sort(items):
