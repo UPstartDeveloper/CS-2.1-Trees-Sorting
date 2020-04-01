@@ -1,4 +1,5 @@
 #!python
+import sys
 
 
 def is_sorted(items):
@@ -56,6 +57,28 @@ def bubble_sort(items):
                 num_swaps += 1
         # slowly move marker for where sorted portion of items being
         sorted_right -= 1
+
+
+def find_minimum(items, start, end):
+    """Returns the index of smallest value between the start and end indices
+       in items.
+
+       Parameters:
+       items(list)
+       start(int): the index that marks where to start linear search for
+                    minimum value
+       end(int): the index that indicates where in items we end our search
+
+       Returns: int: the index where the smallest value is found
+
+    """
+    minimum = sys.maxsize
+    min_index = 0
+    for i in range(start, end):
+        if items[i] < minimum:
+            min_index = i
+            minimum = items[i]
+    return min_index
 
 
 def selection_sort(items):
