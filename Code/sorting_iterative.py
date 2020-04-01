@@ -1,5 +1,4 @@
 #!python
-import sys
 
 
 def is_sorted(items):
@@ -72,9 +71,10 @@ def find_minimum_index(items, start, end):
        Returns: int: the index where the smallest value is found
 
     """
-    minimum = sys.maxsize
-    min_index = 0
+    min_index = start
+    minimum = items[start]
     for i in range(start, end):
+        # if comparing strings, convert to ASCII
         if items[i] < minimum:
             min_index = i
             minimum = items[i]
