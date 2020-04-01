@@ -59,7 +59,7 @@ def bubble_sort(items):
         sorted_right -= 1
 
 
-def find_minimum(items, start, end):
+def find_minimum_index(items, start, end):
     """Returns the index of smallest value between the start and end indices
        in items.
 
@@ -89,6 +89,21 @@ def selection_sort(items):
     # TODO: Repeat until all items are in sorted order
     # TODO: Find minimum item in unsorted items
     # TODO: Swap it with first unsorted item
+    # sorted_left is the index to which everything the left of is sorted
+    sorted_left = -1
+    while sorted_left < len(items) - 1:
+        # grab the item at sorted_left index position
+        supposed_min = items[sorted_left + 1]
+        # search for the minimum among all other items
+        other_min_index = find_minimum_index(items, sorted_left + 1,
+                                             len(items))
+        possible_min = items[other_min_index]
+        # if possible_min is less, then it should indeed be swapped
+        if possible_min < supposed_min:
+            items[sorted_left + 1] = possible_min
+            items[other_min_index] = supposed_min
+        # move along the sorted portion of items
+        sorted_left += 1
 
 
 def insertion_sort(items):
