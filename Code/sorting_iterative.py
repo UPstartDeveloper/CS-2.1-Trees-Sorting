@@ -28,14 +28,18 @@ def swap_adjacent_items(items, left_index, right_index):
     return items
 
 
+def sort_one_element(items):
+    '''Returns True in the edge case where there's only 1 item in items.'''
+    if len(items) == 1:
+        return True
+
+
 def bubble_sort(items):
     """Sort given items by swapping adjacent items that are out of order, and
     repeating until all items are in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # edge case: if there's one item only, return True early
-    if len(items) == 1:
-        return True
+    sort_one_element(items)
     # everything to the right of this index is assumed to be sorted
     sorted_right = len(items)
     # number of swaps on a given pass
