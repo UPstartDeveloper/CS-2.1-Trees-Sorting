@@ -15,6 +15,18 @@ def is_sorted(items):
     return True
 
 
+def swap_adjacent_items(items, left_index, right_index):
+    """Switch elements located in left and right indices in items array.
+       When this function is invoked, right element should be less than the
+       left element.
+
+    """
+    left_item = items[left_index]
+    right_item = items[right_index]
+    items[left_index] = right_item
+    items[right_index] = left_item
+
+
 def bubble_sort(items):
     """Sort given items by swapping adjacent items that are out of order, and
     repeating until all items are in sorted order.
