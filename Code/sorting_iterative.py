@@ -3,8 +3,19 @@
 
 def is_sorted(items):
     """Return a boolean indicating whether given items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+
+       Parameters:
+       items(list)
+
+       Running time: O(n) in the average case, in which we may require several
+                    iterations through the list of items, to find one out of
+                    order. The time taken for this step scales in linear
+                    proportion to the number of items in items.
+
+        Memory usage: O(1), because in all cases the number of and variety of
+                     the variables used in this function does not change.
+
+    """
     for i in range(1, len(items)):
         # the previous item must be less than or equal to its right neighbor
         item = items[i]
@@ -37,8 +48,21 @@ def sort_one_element(items):
 def bubble_sort(items):
     """Sort given items by swapping adjacent items that are out of order, and
     repeating until all items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+
+     Parameters:
+     items(list)
+
+     Running time: O(n^2). The runtime complexity of this function scales in
+                   proportion to the number of items, on a quadratic scale.
+                   This is because we may need to perform n swaps to get each
+                   of n elements in its proper position, where n is the number
+                   of items. This actually occurs in the worst case scenario,
+                   where items is input in perfectly descending order.
+
+     Memory usage: O(1), because this function uses a fixed number of
+                   variables.
+
+    """
     sort_one_element(items)
     # everything to the right of this index is assumed to be sorted
     sorted_right = len(items)
@@ -83,12 +107,27 @@ def find_minimum_index(items, start, end):
 
 def selection_sort(items):
     """Sort given items by finding minimum item, swapping it with first
-    unsorted item, and repeating until all items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Find minimum item in unsorted items
-    # TODO: Swap it with first unsorted item
+       unsorted item, and repeating until all items are in sorted order.
+
+       Parameters:
+       items(list)
+
+       Running time: O(n*(n - i)), where n is the number of items, and i is the
+                    number of items we have not sorted already (starting from
+                    left).
+                    This runtime complexity scales quadratically with respect
+                    to the size of n. This is because we need to select the
+                    best index to position each of n items. The complexity is
+                    not quite O(n^2), because we have the benefit of assuming
+                    all elements to the left of our current item (if we
+                    started traversing from index 0) are already in perfectly
+                    ascending order.
+
+       Memory usage: O(1), because this function uses a fixed number of
+                     variables.
+
+    """
+    sort_one_element(items)
     # sorted_left is the index to which everything the left of is sorted
     sorted_left = -1
     while sorted_left < len(items) - 1:
@@ -108,10 +147,32 @@ def selection_sort(items):
 
 def insertion_sort(items):
     """Sort given items by taking first unsorted item, inserting it in sorted
-    order in front of items, and repeating until all items are in order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+       order in front of items, and repeating until all items are in order.
+
+
+       Parameters:
+       items(list)
+
+       Running time: O(n*(n - i)), where n is the number of items, and i is the
+                    number of items we have sorted already (starting from
+                    left).
+                    This runtime complexity scales quadratically with respect
+                    to the size of n, in the same way as selection sort. One
+                    key difference to note is that because we progressively
+                    sort items from the right into the left (aka the portion of
+                    the array already sorted), this flips the worst case
+                    scenario from selection sort. Whereas selection sort
+                    performed the worst under a nearly sorted input array, this
+                    is the optimal scenario for insertion sort - in terms of
+                    this implementation, we see that reflected in the reduction
+                    of iterations made in the inner while loop.
+
+       Memory usage: O(1), because this function uses a fixed number of
+                     variables.
+
+    """
     # perform as many as n - 1 insertions (n is number of items)
+    sort_one_element(items)
     next_index = 1
     while next_index < len(items):
         # figure out the index where the insertion must occur
