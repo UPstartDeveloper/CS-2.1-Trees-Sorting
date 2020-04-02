@@ -1,4 +1,27 @@
 #!python
+tuple = type(())
+str = type('')
+
+
+def compare_tuples(items):
+    """Determines which a list of tuples (2D array) is sorted.
+       Starts from the beginning of items (assumed that only tuples in items).
+
+    """
+    # compare elements in corresponding indices in the items list
+    groupings = zip(items)
+    # make sure all groupsof data is sorted
+    for group in groupings:
+        # make sure each group is sorted
+        for i in range(1, len(group)):
+            left_neighbor = group[i]
+            item = group[i - 1]
+            # make sure comparing like data types
+            if not type(left_neighbor) == type(item):
+                return False
+            if left_neighbor > item:
+                return False
+    return True
 
 
 def is_sorted(items):
@@ -20,8 +43,24 @@ def is_sorted(items):
         # the previous item must be less than or equal to its right neighbor
         item = items[i]
         left_neighbor = items[i - 1]
-        if left_neighbor > item:
-            return False
+        # if comparing tuples
+        if isinstance(left_neighbor, tuple) is True:
+            compare_tuples(items)
+        # if comparing strings for alphabetization
+        if isinstance(left_neighbor, str) is True:
+            # Cleaning nonalphabetic characters
+            chars = [char for char in left_neighbor if char.isalpha() is True]
+            left_neighbor = ''.join(chars)
+            chars = [char for char in item if char.isalpha() is True]
+            item = ''.join(chars)
+            # Insensitizing case
+            if left_neighbor.lower() > item.lower():
+                return False
+        else:
+            if left_neighbor > item:
+                print(f"Left: {left_neighbor}")
+                print(f"Item: {item}")
+                return False
     # all items are in ascending sorted order
     return True
 
