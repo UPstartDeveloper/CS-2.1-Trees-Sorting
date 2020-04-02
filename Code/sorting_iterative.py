@@ -111,28 +111,15 @@ def insertion_sort(items):
     order in front of items, and repeating until all items are in order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Take first unsorted item
-    # TODO: Insert it in sorted order in front of items
-    # keep track of indices being added to soted portion of items
+    # perform as many as n - 1 insertions (n is number of items)
     next_index = 1
     while next_index < len(items):
-        # figure out the  index where the insertion must occur
+        # figure out the index where the insertion must occur
         insert_at = next_index
-        for i in range(next_index, 0, -1):
-            if items[next_index] < items[insert_at]:
-                insert_at -= 1
-            # perform the swap
-            insert_item = items.pop(next_index)
-            items.insert(insert_at, insert_item)
+        while insert_at >= 1 and items[next_index] <= items[insert_at - 1]:
+            insert_at -= 1
+        # perform the swap
+        insert_item = items.pop(next_index)
+        items.insert(insert_at, insert_item)
         # move on to the next index
         next_index += 1
-    '''for i in range(1, len(items)):
-        index_of_next = i
-        adjacent_index = i - 1
-        adjacent_item = items[adjacent_index]
-        # make the insertion
-        while adjacent_index >= 0:
-            # discover the index where the insertion should be made
-            if items[index_of_next] < items[adjacent_index]:
-                pass'''
