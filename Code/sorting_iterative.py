@@ -6,7 +6,6 @@ str = type('')
 def compare_tuples(items):
     """Determines which a list of tuples (2D array) is sorted.
        Starts from the beginning of items (assumed that only tuples in items).
-
     """
     # compare elements in corresponding indices in the items list
     groupings = zip(items)
@@ -26,18 +25,14 @@ def compare_tuples(items):
 
 def is_sorted(items):
     """Return a boolean indicating whether given items are in sorted order.
-
        Parameters:
        items(list)
-
        Running time: O(n) in the average case, in which we may require several
                     iterations through the list of items, to find one out of
                     order. The time taken for this step scales in linear
                     proportion to the number of items in items.
-
         Memory usage: O(1), because in all cases the number of and variety of
                      the variables used in this function does not change.
-
     """
     for i in range(1, len(items)):
         # the previous item must be less than or equal to its right neighbor
@@ -58,8 +53,6 @@ def is_sorted(items):
                 return False
         else:
             if left_neighbor > item:
-                print(f"Left: {left_neighbor}")
-                print(f"Item: {item}")
                 return False
     # all items are in ascending sorted order
     return True
@@ -69,7 +62,6 @@ def swap_adjacent_items(items, left_index, right_index):
     """Switch elements located in left and right indices in items array.
        When this function is invoked, right element should be less than the
        left element.
-
     """
     left_item = items[left_index]
     right_item = items[right_index]
@@ -87,36 +79,33 @@ def sort_one_element(items):
 def bubble_sort(items):
     """Sort given items by swapping adjacent items that are out of order, and
     repeating until all items are in sorted order.
-
      Parameters:
      items(list)
-
      Running time: O(n^2). The runtime complexity of this function scales in
                    proportion to the number of items, on a quadratic scale.
                    This is because we may need to perform n swaps to get each
                    of n elements in its proper position, where n is the number
                    of items. This actually occurs in the worst case scenario,
                    where items is input in perfectly descending order.
-
      Memory usage: O(1), because this function uses a fixed number of
                    variables.
-
     """
     sort_one_element(items)
     # everything to the right of this index is assumed to be sorted
     sorted_right = len(items)
-    # number of swaps on a given pass
-    num_swaps = 0
     while sorted_right > 0:
-        # num_swaps = 0
+        # number of swaps on a given pass
+        num_swaps = 0
         for i in range(1, sorted_right):
-            # num_swaps = 0
             left_index = i - 1
             right_index = i
             # make swaps between adjacent elements as needed
             if items[left_index] > items[right_index]:
                 items = swap_adjacent_items(items, left_index, right_index)
                 num_swaps += 1
+        # exit early if no swaps made
+        if num_swaps == 0:
+            break
         # slowly move marker for where sorted portion of items being
         sorted_right -= 1
 
@@ -124,15 +113,12 @@ def bubble_sort(items):
 def find_minimum_index(items, start, end):
     """Returns the index of smallest value between the start and end indices
        in items.
-
        Parameters:
        items(list)
        start(int): the index that marks where to start linear search for
                     minimum value
        end(int): the index that indicates where in items we end our search
-
        Returns: int: the index where the smallest value is found
-
     """
     min_index = start
     minimum = items[start]
@@ -147,10 +133,8 @@ def find_minimum_index(items, start, end):
 def selection_sort(items):
     """Sort given items by finding minimum item, swapping it with first
        unsorted item, and repeating until all items are in sorted order.
-
        Parameters:
        items(list)
-
        Running time: O(n*(n - i)), where n is the number of items, and i is the
                     number of items we have not sorted already (starting from
                     left).
@@ -161,10 +145,8 @@ def selection_sort(items):
                     all elements to the left of our current item (if we
                     started traversing from index 0) are already in perfectly
                     ascending order.
-
        Memory usage: O(1), because this function uses a fixed number of
                      variables.
-
     """
     sort_one_element(items)
     # sorted_left is the index to which everything the left of is sorted
@@ -187,11 +169,8 @@ def selection_sort(items):
 def insertion_sort(items):
     """Sort given items by taking first unsorted item, inserting it in sorted
        order in front of items, and repeating until all items are in order.
-
-
        Parameters:
        items(list)
-
        Running time: O(n*(n - i)), where n is the number of items, and i is the
                     number of items we have sorted already (starting from
                     left).
@@ -205,10 +184,8 @@ def insertion_sort(items):
                     is the optimal scenario for insertion sort - in terms of
                     this implementation, we see that reflected in the reduction
                     of iterations made in the inner while loop.
-
        Memory usage: O(1), because this function uses a fixed number of
                      variables.
-
     """
     # perform as many as n - 1 insertions (n is number of items)
     sort_one_element(items)

@@ -9,6 +9,12 @@ def merge(items1, items2):
     # TODO: Repeat until one list is empty
     # TODO: Find minimum item in both lists and append it to new list
     # TODO: Append remaining items in non-empty list to new list
+    '''
+    1) make a new list
+    2) from the first elements in the smaller arrays, pick the next element to go in the
+       big array
+    3) return that bad larry
+    '''
 
 
 def split_sort_merge(items):
@@ -18,8 +24,19 @@ def split_sort_merge(items):
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
     # TODO: Split items list into approximately equal halves
+    '''
+    1) calculate the middle index
+    2) setting vars for left-right halves
+    3) repeat 1-2 until lists are len(list) == 2
+    '''
     # TODO: Sort each half using any other sorting algorithm
+    '''
+    4) insertion sort each of the smaller
+    '''
     # TODO: Merge sorted halves into one list in sorted order
+    '''
+    5) call merge
+    '''
 
 
 def merge_sort(items):
