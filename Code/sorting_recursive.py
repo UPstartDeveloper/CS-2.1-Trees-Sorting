@@ -4,9 +4,17 @@ from sorting_iterative import insertion_sort
 
 def merge(items1, items2):
     """Merge given lists of items, each assumed to already be in sorted order,
-    and return a new list containing all items in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+       and return a new list containing all items in sorted order.
+
+       Running time: O(n + m) where n and m are the amount of elements in
+                     items1 and items2, respectively. This is because to merge
+                     both lists into one, we need one iteration for per element
+                     in both items1 and items2.
+
+       Memory usage: O(n + m) because the size our new list takes up scales
+                     linear proportion with the sizes of items1 and items2.
+
+    """
     # make a new list
     merged = list()
     # track idices in both lists of items
@@ -41,33 +49,60 @@ def split(items):
 
 def split_sort_merge(items):
     """Sort given items by splitting list into two approximately equal halves,
-    sorting each with an iterative sorting algorithm, and merging results into
-    a list in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+       sorting each with an iterative sorting algorithm, and merging results
+       into a list in sorted order.
+
+       Running time: O(p^2) where p is the number of elements in the items
+                     list. The runtime of this function asymptotically scales
+                     with the time take by the Insertion Sort algorithm, which
+                     is used as a helper twice. Although in the average case
+                     Insertion Sort runs in quadratic time, it is important to
+                     note that it can also run in only linear time; when a list
+                     of only 1 element is passed in, that counts as sorted.
+
+       Memory usage: O(p). The space complexity of this function is dependent
+                     upon that of the merge() function, which scales with the
+                     size of the input items list.
+
+    """
     # Split items list into approximately equal halves
-    left, right = split(items)
+    left, right = split(items)  # O(p) time
     # Sort each half using any other sorting algorithm
-    insertion_sort(left)
-    insertion_sort(right)
+    insertion_sort(left)  # O(p^2 / 2) time
+    insertion_sort(right)  # O(p^2 / 2) time
     # Merge sorted halves into one list in sorted order
-    return merge(left, right)
+    return merge(left, right)  # O(n + m) = O(p) time + space
 
 
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
-    sorting each recursively, and merging results into a list in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+       sorting each recursively, and merging results into a list in sorted
+       order.
+
+       Running time: O(p log(p)), where is the number of list elements in items.
+                     The runtime of this function is asymptotically determined
+                     by the number of times an append operation must be
+                     performed, in order to merge the elements in sorted order
+                     into the array returned by the merge() helper function.
+                     We have to perform the append operation for each of p
+                     elements, and repeat that step log(p) times, as we merge
+                     subsequently larger sub-arrays all back into one.
+
+       Memory usage: O(n), due to the fact we need to depend on the merge()
+                     helper function. This means as we sort larger lists, the
+                     function requires more memory allocation for the temporary
+                     array used in the sorting process.
+
+    """
     # Check if list is so small it's already sorted (base case)
     if len(items) == 1 or len(items) == 0:
-        return items
+        return items  # O(1) time
     else:
-        # TODO: Split items list into approximately equal halves
-        left, right = split(items)
+        # Split items list into approximately equal halves
+        left, right = split(items)  # O(p) time
         sorted_left = merge_sort(left)
         sorted_right = merge_sort(right)
-        items[:] = merge(sorted_left, sorted_right)
+        items[:] = merge(sorted_left, sorted_right)  # O(p) time
         return items
 
 
