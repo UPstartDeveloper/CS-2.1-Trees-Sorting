@@ -6,15 +6,16 @@ def merge(items1, items2):
     and return a new list containing all items in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until one list is empty
-    # TODO: Find minimum item in both lists and append it to new list
-    # TODO: Append remaining items in non-empty list to new list
-    '''
-    1) make a new list
-    2) from the first elements in the smaller arrays, pick the next element to go in the
-       big array
-    3) return that bad larry
-    '''
+    # make a new list
+    merged = list()
+    # append to merged - choose between the first elements in smaller arrays
+    for i in range(len(items1) + len(items2)):
+        if items1[0] < items2[0]:
+            merged.append(items1.pop(0))
+        else:
+            merged.append(items2.pop(0))
+    # return the new list
+    return merged
 
 
 def split_sort_merge(items):
