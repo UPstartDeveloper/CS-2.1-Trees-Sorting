@@ -88,7 +88,7 @@ class IsSortedTest(unittest.TestCase):
         assert is_sorted([('A', 5), ('A', 3)]) is False  # Second item unsorted
         assert is_sorted([('A', 5), ('A', 3)]) is False  # Second item unsorted
         # Comparing different data types
-        # assert is_sorted([('A', 5), (3, 'B')]) is False
+        assert is_sorted([('A', 5), (3, 'B')]) is False  # currently failing
 
 
 class IntegerSortTest(unittest.TestCase):
@@ -216,6 +216,17 @@ class StringSortTest(unittest.TestCase):
 
     def test_sort_on_seven_dwarf_names(self):
         items = 'Doc Grumpy Happy Sleepy Bashful Sneezy Dopey'.split()
+        sorted_items = sorted(items)  # Copy
+        sort(items)  # Mutate
+        assert items == sorted_items
+
+    def test_sort_longer_phrases(self):
+        items = 'The Itsy-Bitsy Spider'.split()
+        sorted_items = sorted(items)  # Copy
+        sort(items)  # Mutate
+        assert items == sorted_items
+
+        items = 'Rat ? A > < Tat Cat ?'.split()
         sorted_items = sorted(items)  # Copy
         sort(items)  # Mutate
         assert items == sorted_items

@@ -18,7 +18,7 @@ def compare_tuples(items):
             # make sure comparing like data types
             if not type(left_neighbor) == type(item):
                 return False
-            if left_neighbor > item:
+            elif left_neighbor > item:
                 return False
     return True
 
@@ -54,7 +54,11 @@ def is_sorted(items):
             if left_neighbor.lower() > item.lower():
                 return False
         else:
-            if left_neighbor > item:
+            # comparing data (assumed) to be numerical
+            try:
+                if left_neighbor > item:
+                    return False
+            except TypeError:
                 return False
     # all items are in ascending sorted order
     return True
