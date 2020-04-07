@@ -1,8 +1,21 @@
 #!python
-
-from sorting_iterative import is_sorted, bubble_sort, selection_sort, insertion_sort
+from sorting_iterative import (
+    is_sorted,
+    bubble_sort,
+    selection_sort,
+    insertion_sort
+)
 from sorting_recursive import split_sort_merge, merge_sort, quick_sort
 from sorting_integer import counting_sort, bucket_sort
+import time
+
+
+def timer(sorter, items_to_sort):
+    '''Prints the time taken for the sorting algorithm to execute.'''
+    start = time.time()
+    sorter(items_to_sort)
+    end = time.time()
+    print(f"Sorting time: {end-start} ms.")
 
 
 def random_ints(count=20, min=1, max=50):
@@ -21,7 +34,8 @@ def test_sorting(sort=bubble_sort, num_items=20, max_value=50):
 
     # Test the sorting algorithm and ensure the list is sorted afterward
     print('Sorting items with {}(items)'.format(sort.__name__))
-    sort(items)  # Note: sort should be a mutative function (modify input)
+    # sort(items)  # Note: sort should be a mutative function (modify input)
+    timer(sort, items)
     print('Sorted items:  {!r}'.format(items))
     print('Sorted order?  {!r}'.format(is_sorted(items)))
 

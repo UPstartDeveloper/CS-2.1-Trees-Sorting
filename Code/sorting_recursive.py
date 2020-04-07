@@ -79,7 +79,7 @@ def merge_sort(items):
        sorting each recursively, and merging results into a list in sorted
        order.
 
-       Running time: O(p log(p)), where is the number of list elements in items.
+       Running time: O(p log(p)), where is the number of items.
                      The runtime of this function is asymptotically determined
                      by the number of times an append operation must be
                      performed, in order to merge the elements in sorted order
