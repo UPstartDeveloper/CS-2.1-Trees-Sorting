@@ -4,7 +4,7 @@ from sorting import random_ints
 from sorting_iterative import (
     is_sorted, bubble_sort, selection_sort, insertion_sort
 )
-from sorting_recursive import split_sort_merge, merge_sort, quick_sort
+from sorting_recursive import split_sort_merge, merge_sort, quick_sort, merge
 from sorting_integer import counting_sort, bucket_sort
 import unittest
 
@@ -230,6 +230,36 @@ class StringSortTest(unittest.TestCase):
         sorted_items = sorted(items)  # Copy
         sort(items)  # Mutate
         assert items == sorted_items
+
+
+class MergeSortTest(unittest.TestCase):
+    '''This suite of tests is specific to the merge function.'''
+    def test_merge_on_integers(self):
+        '''Two sorted lists are combined in a larger sorted list.'''
+        items1 = [1, 2, 4, 5]
+        items2 = [3, 6, 7, 8]
+        assert merge(items1, items2) == [1, 2, 3, 4, 5, 6, 7, 8]
+
+    def test_merge_on_lists_different_sizes(self):
+        '''Two sorted lists are combined in a larger sorted list.'''
+        items1 = [1, 2, 4, 5]
+        items2 = [3, 8]
+        assert merge(items1, items2) == [1, 2, 3, 4, 5, 8]
+
+    def test_merge_on_non_numerical_data(self):
+        '''Two sorted lists are combined in a larger sorted list.'''
+        # on strings
+        items1 = ['A', 'C', 'E', 'X']
+        items2 = ['B', 'D', 'Y', 'Z']
+        assert merge(items1, items2) == [
+            'A', 'B', 'C', 'D', 'E', 'X', 'Y', 'Z'
+        ]
+        # on tuples
+        items1 = [(1, 'A'), (8, 'class')]
+        items2 = [(2, 'baboon')]
+        assert merge(items1, items2) == [
+            (1, 'A'), (2, 'baboon'), (8, 'class')
+        ]
 
 
 def get_sort_function():
