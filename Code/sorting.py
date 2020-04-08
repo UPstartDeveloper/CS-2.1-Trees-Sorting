@@ -34,7 +34,7 @@ def test_sorting(sort=bubble_sort, num_items=20, max_value=50):
 
     # Test the sorting algorithm and ensure the list is sorted afterward
     print('Sorting items with {}(items)'.format(sort.__name__))
-    # sort(items)  # Note: sort should be a mutative function (modify input)
+    sort(items)  # Note: sort should be a mutative function (modify input)
     timer(sort, items)
     print('Sorted items:  {!r}'.format(items))
     print('Sorted order?  {!r}'.format(is_sorted(items)))
