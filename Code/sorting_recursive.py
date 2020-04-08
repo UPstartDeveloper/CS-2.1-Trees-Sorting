@@ -212,26 +212,3 @@ if len(items) > 1:
     hi_index = len(items)
     quick_sort(items[0:p], 0, p - 1)
     quick_sort(items[p:hi_index], p, hi_index)'''
-
-
-'''
-def tree_sort(items)
-
-    make the tree
-        - iterate over the array
-        - populate the (binary) tree
-        - add
-            smaller items go to left subtree
-            greater goes in the right
-    do an in order DFS on it
-        - start at the root node
-        - if node.left is not None
-            go to left subtree
-          visit(node)
-         if node.right is not None
-             go to right subtree
-
-          visit - puts in a temp array
-    return a new array (or mutate in place)
-            items[:] = in_order items
-'''
