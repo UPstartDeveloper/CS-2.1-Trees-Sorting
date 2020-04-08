@@ -106,7 +106,7 @@ def merge_sort(items):
         return items
 
 
-def median_of_three(items):
+def get_pivot(collection):
     """Returns the index of the pivot element in items, after applying the
        'median of three' algorithm.
 
@@ -123,17 +123,18 @@ def median_of_three(items):
 
     """
     # pull out the first, middle, and last elements
-    mid, last = len(items) // 2, len(items) - 1
-    first, middle, last = items[0], items[mid], items[last]
+    mid, last_index = len(collection) // 2, (len(collection) - 1)
+    first, middle, last = (
+        collection[0], collection[mid], collection[last_index]
+    )
     sub_three = [first, middle, last]
     # sort the three
     insertion_sort(sub_three)
     # place back in the items array
-    items[0] = subtree[0]
-    items[mid] = subtree[1]
-    items[last] = subtree[2]
+    collection[0] = sub_three[0]
+    pivot = collection[mid] = sub_three[1]
+    collection[last_index] = sub_three[2]
     # return the index and value of the pivot
-    pivot = items[mid]
     return mid, pivot
 
 
@@ -151,32 +152,66 @@ def partition(items, low, high):
 
     """
     # Choose a pivot
-    p, pivot = median_of_three(items)
+    p, pivot = get_pivot(items)
     # Loop through all items in range [low...high]
-    for i in range(low, high + 1):
+    for i in range(low, high):
+        # print(i)
         item = items[i]
         # Move items less than pivot into front of range [low...p-1]
         if item <= pivot and not i <= p:
-            items.insert(0, item)
+            items.insert(0,  items.pop(i))
+            p += 1
         # Move items greater than pivot into back of range [p+1...high]
         elif item > pivot and not i > p:
-            items.insert(p + 1, item)
-        # remove the other instance of item in the array
-        del items[i]
+            items.insert(p, items.pop(i))
+            p -= 1
     # return index p
+# print("Stop iterating")
     return p
 
 
 def quick_sort(items, low=None, high=None):
     """Sort given items in place by partitioning items in range `[low...high]`
-    around a pivot item and recursively sorting each remaining sublist range.
-    TODO: Best case running time: ??? Why and under what conditions?
-    TODO: Worst case running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+       around a pivot item and recursively sorting each remaining sublist
+       range.
+
+       Complexity Analysis:
+       TODO: Best case running time: ??? Why and under what conditions?
+       TODO: Worst case running time: ??? Why and under what conditions?
+       TODO: Memory usage: ??? Why and under what conditions?
+
+    """
     # TODO: Check if high and low range bounds have default values (not given)
+    if low is None and high is None:
+        low = 0
+        high = len(items)
     # TODO: Check if list or range is so small it's already sorted (base case)
+    if len(items) < 2:
+        items[:] = items
+# print(f'Items: {items}')
+        return items
     # TODO: Partition items in-place around a pivot and get index of pivot
+    hi_index = len(items)
+    p = partition(items, 0, hi_index)
+    # after_p = p + 1
     # TODO: Sort each sublist range by recursively calling quick sort
+    quick_sort(items[0:p], 0, p - 1)
+    quick_sort(items[p:hi_index], p, hi_index)
+
+
+'''
+# TODO: Check if high and low range bounds have default values (not given)
+if low is None and high is None:
+    low = 0
+    high = len(items)
+# TODO: Check if list or range is so small it's already sorted (base case)
+if len(items) > 1:
+    # TODO: Partition items in-place around a pivot and get index of pivot
+    p = partition(items, low, high)
+    # TODO: Sort each sublist range by recursively calling quick sort
+    hi_index = len(items)
+    quick_sort(items[0:p], 0, p - 1)
+    quick_sort(items[p:hi_index], p, hi_index)'''
 
 
 '''
