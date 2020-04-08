@@ -120,6 +120,7 @@ def median_of_three(items):
           (i.e. if the element pulled from the last index was found to the
            median, it would go back into items at the index the middle element
            orignally occupied).
+
     """
     # pull out the first, middle, and last elements
     mid, last = len(items) // 2, len(items) - 1
@@ -131,13 +132,14 @@ def median_of_three(items):
     items[0] = subtree[0]
     items[mid] = subtree[1]
     items[last] = subtree[2]
-    # return the index of the pivot
-    return mid
+    # return the index and value of the pivot
+    pivot = items[mid]
+    return mid, pivot
 
 
 def partition(items, low, high):
     """Return index `p` after in-place partitioning given items in range
-       `[low...high]` by choosing a pivot (median of three approach is used).
+       `[low...high]` by choosing a pivot (using the median of three approach).
 
        From that range, moving pivot into index `p`, items less than pivot into
        range `[low...p-1]`, and items greater than pivot into range
@@ -148,11 +150,21 @@ def partition(items, low, high):
        TODO: Memory usage: ??? Why and under what conditions?
 
     """
-    # TODO: Choose a pivot any way and document your method in docstring above
-    # TODO: Loop through all items in range [low...high]
-    # TODO: Move items less than pivot into front of range [low...p-1]
-    # TODO: Move items greater than pivot into back of range [p+1...high]
-    # TODO: Move pivot item into final position [p] and return index p
+    # Choose a pivot
+    p, pivot = median_of_three(items)
+    # Loop through all items in range [low...high]
+    for i in range(low, high + 1):
+        item = items[i]
+        # Move items less than pivot into front of range [low...p-1]
+        if item <= pivot and not i <= p:
+            items.insert(0, item)
+        # Move items greater than pivot into back of range [p+1...high]
+        elif item > pivot and not i > p:
+            items.insert(p + 1, item)
+        # remove the other instance of item in the array
+        del items[i]
+    # return index p
+    return p
 
 
 def quick_sort(items, low=None, high=None):
