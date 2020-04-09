@@ -138,7 +138,7 @@ def get_pivot(collection):
     return mid, pivot
 
 
-def partition(items, low, high):
+def partition(items_list, low, high):
     """Return index `p` after in-place partitioning given items in range
        `[low...high]` by choosing a pivot (using the median of three approach).
 
@@ -151,23 +151,36 @@ def partition(items, low, high):
        TODO: Memory usage: ??? Why and under what conditions?
 
     """
+    '''
     # Choose a pivot
-    p, pivot = get_pivot(items)
+    p, pivot = get_pivot(items_list)
     # Loop through all items in range [low...high]
     for i in range(low, high):
         # print(i)
-        item = items[i]
+        item = items_list[i]
         # Move items less than pivot into front of range [low...p-1]
         if item <= pivot and not i <= p:
-            items.insert(0,  items.pop(i))
+            items_list.insert(0,  items_list.pop(i))
             p += 1
         # Move items greater than pivot into back of range [p+1...high]
         elif item > pivot and not i > p:
-            items.insert(p, items.pop(i))
+            items_list.insert(p, items_list.pop(i))
             p -= 1
     # return index p
-# print("Stop iterating")
+    # print("Stop iterating")
     return p
+    '''
+    '''
+    p, pivot = get_pivot(items)
+    while low < p and high > p:
+        low += 1
+        high -= 1
+        if items[low] > pivot and items[high] <= pivot:
+            items[low], items[high] = items[high], items[low]
+        if low >= high:
+            items[low], pivot = pivot, items[low]
+    return p
+    '''
 
 
 def quick_sort(items, low=None, high=None):
@@ -184,7 +197,18 @@ def quick_sort(items, low=None, high=None):
     # TODO: Check if high and low range bounds have default values (not given)
     if low is None and high is None:
         low = 0
-        high = len(items)
+        high = len(items) - 1
+    # TODO: Check if list or range is so small it's already sorted (base case)
+    pass
+    # TODO: Partition items in-place around a pivot and get index of pivot
+    index_p = partition(items, low high)
+    # TODO: Sort each sublist range by recursively calling quick sort
+    pass
+    '''
+    # TODO: Check if high and low range bounds have default values (not given)
+    if low is None and high is None:
+        low = 0
+        high = len(items) - 1
     # TODO: Check if list or range is so small it's already sorted (base case)
     if len(items) < 2:
         items[:] = items
@@ -197,6 +221,7 @@ def quick_sort(items, low=None, high=None):
     # TODO: Sort each sublist range by recursively calling quick sort
     quick_sort(items[0:p], 0, p - 1)
     quick_sort(items[p:hi_index], p, hi_index)
+    '''
 
 
 '''
