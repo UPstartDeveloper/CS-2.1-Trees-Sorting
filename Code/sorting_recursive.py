@@ -138,9 +138,32 @@ def get_pivot(collection):
     return mid, pivot
 
 
+def get_left_ref(items, low, high, pivot):
+    """Return the index of first element that is less than pivot,
+       starting from the left."""
+    for i in range(low, high):
+        if items_list[i] < pivot:
+            return items_list[i], i
+
+
+def get_right_ref(items, low, high, pivot):
+    """Return the index of first element that is greater than pivot,
+       starting from the back."""
+    for i in range(high, low, -1):
+        if items_list[i] < pivot:
+            return items_list[i], i
+
+
+def swap(items, left_index, right_index):
+    '''Swaps the index positions of two elements in an array.'''
+    items[right_index], items[left_index] = (
+        items[left_index], items[right_index]
+    )
+
+
 def partition(items_list, low, high):
     """Return index `p` after in-place partitioning given items in range
-       `[low...high]` by choosing a pivot (using the median of three approach).
+       `[low...high]` by choosing a pivot (highest-index element).
 
        From that range, moving pivot into index `p`, items less than pivot into
        range `[low...p-1]`, and items greater than pivot into range
@@ -151,6 +174,25 @@ def partition(items_list, low, high):
        TODO: Memory usage: ??? Why and under what conditions?
 
     """
+    # Choose a pivot: highest index element
+    pivot = items_list[-1]
+    # TODO: Loop through all items in range [low...high]
+    left = 0
+    right = len(items_list) - 2
+    p_index = len(items_list) - 1
+    # while left < p_index:
+    for i in range(low, high):
+        if items_list[left] < pivot:
+            left += 1
+        if items_list[right] > pivot:
+            right -= 1
+        # TODO: Move items less than pivot into front of range [low...p-1]
+        # TODO: Move items greater than pivot into back of range [p+1...high]
+        if items_list[left] > pivot and items_list[right] < pivot:
+            swap(items_list, left, right)
+    # TODO: Move pivot item into final position [p] and return index p
+    swap(items_list, left, p_index)
+    return left
     '''
     # Choose a pivot
     p, pivot = get_pivot(items_list)
@@ -199,11 +241,15 @@ def quick_sort(items, low=None, high=None):
         low = 0
         high = len(items) - 1
     # TODO: Check if list or range is so small it's already sorted (base case)
-    pass
+    if len(items) <= 2:
+        return items
     # TODO: Partition items in-place around a pivot and get index of pivot
-    index_p = partition(items, low high)
+    index_p = partition(items, low, high)
     # TODO: Sort each sublist range by recursively calling quick sort
-    pass
+    if low < high:  # recursive case
+        quick_sort(items, low, index_p - 1)
+        quick_sort(items, index_p + 1, high)
+        return items
     '''
     # TODO: Check if high and low range bounds have default values (not given)
     if low is None and high is None:
