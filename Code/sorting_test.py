@@ -4,7 +4,14 @@ from sorting import random_ints
 from sorting_iterative import (
     is_sorted, bubble_sort, selection_sort, insertion_sort
 )
-from sorting_recursive import split_sort_merge, merge_sort, quick_sort, merge
+from sorting_recursive import (
+    split_sort_merge,
+    merge_sort,
+    merge,
+    quick_sort,
+    get_pivot,
+    partition
+)
 from sorting_integer import counting_sort, bucket_sort
 import unittest
 
@@ -260,6 +267,26 @@ class MergeSortTest(unittest.TestCase):
         assert merge(items1, items2) == [
             (1, 'A'), (2, 'baboon'), (8, 'class')
         ]
+
+
+class QuickSortTest(unittest.TestCase):
+    """
+    This suite of tests is specific to the partition and median of three
+    helper functions for quick_sort.
+    """
+    def test_partition(self):
+        """
+        The elements of an array are split so that the pivot element falls
+        into its (ascendingly) sorted position in the final array.
+        """
+        pass
+
+    def test_get_pivot(self):
+        """
+        The pivot is chosen through a variation of the median of three
+        approach.
+        """
+        pass
 
 
 def get_sort_function():

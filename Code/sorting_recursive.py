@@ -211,5 +211,13 @@ def quick_sort(items, low=None, high=None):
 
 
 if __name__ == '__main__':
-    # quick_sort([9, 8, 3, 6, 12, 13, 4, 14, 7, 1], 0, 9)
-    partition([3, 1], 0, 1)
+    # Testing partition function
+    list1 = [3, 1]
+    print(f'List before partition: {list1}')
+    partition(list1, 0, 1)
+    print(f'List after partition: {list1}')
+    # Testing quick_sort function
+    list2 = [9, 8, 3, 6, 12, 13, 4, 14, 7, 1]
+    print(f'List before Quick Sort: {list2}')
+    quick_sort(list2, 0, 9)
+    print(f'List After Quick Sort: {list2}')
