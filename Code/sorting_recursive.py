@@ -175,8 +175,18 @@ def partition(items_list, low, high):
        `[p+1...high]`.
 
        Complexity Analysis:
-       TODO: Running time: ??? Why and under what conditions?
-       TODO: Memory usage: ??? Why and under what conditions?
+       Running time: O(n) where n is the number of items being sorted.
+                     This is because the runtime of this function scales in
+                     linear proportion with respect to the range of elements
+                     between the low and high index positions. In the worst
+                     case where we have a list that is sorted in the reverse of
+                     our desired order, then we will have to make the maximum
+                     of n swaps as we iterate through the items_list.
+
+       Memory usage: O(1) because we partition the items_list in-place.
+                     Only a small number of local variables is used for this
+                     function, so the space complexity does not change with
+                     respect to the size of the input
 
     """
     # shoutout to Alex, Ramon, Jerome, Uyen, Alan, and Andrey for your help!
@@ -186,7 +196,7 @@ def partition(items_list, low, high):
     for i in range(low + 1, high + 1):
         # Move items less than pivot into front of range [low...p-1]
         if items_list[i] < items_list[p_index]:
-            items_list[low], items_list[i] = items_list[i], items_list[low]
+            swap(items_list, i, low)
             i += 1
     # return index p
     return p_index
@@ -273,16 +283,3 @@ if __name__ == '__main__':
     print(f'Quick Sort -> {q_sort_time}\n')
 
     print('And the Winner is: Merge Sort!!')
-
-    '''
-    Testing partition function
-    list1 = [3, 1]
-    print(f'List before partition: {list1}')
-    partition(list1, 0, 1)
-    print(f'List after partition: {list1}')
-    # Testing quick_sort function
-    list2 = [9, 8, 3, 6, 12, 13, 4, 14, 7, 1]
-    print(f'List before Quick Sort: {list2}')
-    quick_sort(list2, 0, 9)
-    print(f'List After Quick Sort: {list2}')
-    '''
