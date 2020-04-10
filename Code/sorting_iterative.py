@@ -83,6 +83,20 @@ def sort_one_element(items):
         return True
 
 
+def swap_left_to_right(items, num_swaps, sorted_right):
+    """Iterates through a list, swapping out of place elements.
+       Returns the number of swaps made during the traversal.
+    """
+    for i in range(1, sorted_right):
+        left_index = i - 1
+        right_index = i
+        # make swaps between adjacent elements as needed
+        if items[left_index] > items[right_index]:
+            items = swap_adjacent_items(items, left_index, right_index)
+            num_swaps += 1
+    return num_swaps
+
+
 def bubble_sort(items):
     """Sort given items by swapping adjacent items that are out of order, and
     repeating until all items are in sorted order.
@@ -114,13 +128,7 @@ def bubble_sort(items):
     while sorted_right > 0:
         # number of swaps on a given pass
         num_swaps = 0
-        for i in range(1, sorted_right):
-            left_index = i - 1
-            right_index = i
-            # make swaps between adjacent elements as needed
-            if items[left_index] > items[right_index]:
-                items = swap_adjacent_items(items, left_index, right_index)
-                num_swaps += 1
+        num_swaps += swap_left_to_right(items, num_swaps, sorted_right)
         # exit early if no swaps made
         if num_swaps == 0:
             break

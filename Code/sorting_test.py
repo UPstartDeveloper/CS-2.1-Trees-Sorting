@@ -345,7 +345,7 @@ def get_sort_function():
 
 
 # If using PyTest, change this variable to the sort function you want to test
-sort = quick_sort
+sort = bubble_sort
 
 
 if __name__ == '__main__':
