@@ -175,19 +175,29 @@ def partition(items_list, low, high):
        TODO: Memory usage: ??? Why and under what conditions?
 
     """
-    # Choose a pivot: lowest index element
-    pivot, p_index = items_list[low], low
-    left_scanner = p_index + 1
-    right_scanner = high
-    while left_scanner < right_scanner:
-        while items_list[left_scanner] < pivot:
-            left_scanner += 1
-        while items_list[right_scanner] >= pivot and right_scanner <= high:
-            right_scanner -= 1
-        swap(items_list, left_scanner, right_scanner)
-    swap(items_list, p_index, left_scanner)
-    print(f'Items: {items_list}, next pivot: index {left_scanner}')
-    return left_scanner
+    # edge case
+    if len(items_list) == 2:
+        if items_list[1] < items_list[0]:
+            items_list[0], items_list[1] = items_list[1], items_list[0]
+            return 0
+    else:
+        print(f'Before Loop: {items_list[low:high+1]}')
+        # Choose a pivot: lowest index element
+        pivot, p_index = items_list[low], low
+        left_scanner = p_index + 1
+        right_scanner = high
+        while left_scanner < right_scanner:
+            while items_list[left_scanner] <= pivot and left_scanner < right_scanner:
+                left_scanner += 1
+            while items_list[right_scanner] > pivot and left_scanner < right_scanner:
+                right_scanner -= 1
+            swap(items_list, left_scanner, right_scanner)
+            # [4, 3, 2, 1, 5, 6, 7]
+        print(f'After Loop:  {items_list[low:high+1]}')
+        swap(items_list, p_index, left_scanner - 1)
+        print(f'After Swap:  {items_list[low:high+1]}')
+        print(f'Items: {items_list}, next pivot: left scanner {items_list[left_scanner]}, ')
+        return left_scanner - 1
     # if not items_list[greater_than_index] >= pivot:
     # swap(items_list, p_index, greater_than_index)
     # return greater_than_index
@@ -306,7 +316,7 @@ def quick_sort(items, low=None, high=None):
         quick_sort(items, low, index_p - 1)
         quick_sort(items, index_p + 1, high)
         # print("exit here")
-        return items
+        # return items
     '''
     # TODO: Check if high and low range bounds have default values (not given)
     if low is None and high is None:
@@ -340,3 +350,7 @@ if len(items) > 1:
     hi_index = len(items)
     quick_sort(items[0:p], 0, p - 1)
     quick_sort(items[p:hi_index], p, hi_index)'''
+
+if __name__ == '__main__':
+    # quick_sort([9, 8, 3, 6, 12, 13, 4, 14, 7, 1], 0, 9)
+    partition([3, 1], 0, 1)
