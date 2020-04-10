@@ -1,6 +1,7 @@
 #!python
 from sorting_iterative import insertion_sort
 from random import randint
+from timing import time_this_sort
 
 
 def merge(items1, items2):
@@ -214,7 +215,16 @@ def quick_sort(items, low=None, high=None):
 
 
 if __name__ == '__main__':
-    # Testing partition function
+    # Speed Test: Merge Sort vs. Quick Sort
+    items = [randint(0, 500) for i in range(100)]
+    m_sort_time, q_sort_time = (
+        time_this_sort(merge_sort, items, False),
+        time_this_sort(quick_sort, items, False)
+    )
+    print(f'Merge Sort -> {m_sort_time}')
+    print(f'Quick Sort -> {q_sort_time}')
+    '''
+    Testing partition function
     list1 = [3, 1]
     print(f'List before partition: {list1}')
     partition(list1, 0, 1)
@@ -224,3 +234,4 @@ if __name__ == '__main__':
     print(f'List before Quick Sort: {list2}')
     quick_sort(list2, 0, 9)
     print(f'List After Quick Sort: {list2}')
+    '''
