@@ -208,9 +208,34 @@ def quick_sort(items, low=None, high=None):
        range.
 
        Complexity Analysis:
-       TODO: Best case running time: ??? Why and under what conditions?
-       TODO: Worst case running time: ??? Why and under what conditions?
-       TODO: Memory usage: ??? Why and under what conditions?
+       Best case running time: O(n log(n))
+       Like merge_sort, the quick_sort algorithm sorts n elements by repeating
+       a recursive process. It calls on itself log(n) times in cases where the
+       pivot chosen partitions the items list in half (aka the median). This
+       would make the number of stack frames used grow asymptotically on the
+       scale of log(n), because each sub-array leaves us with only half the
+       elements as before to sort. Overall, the complexity grows
+       linearithmically with respect to the size of the input items list.
+
+       Worst case running time: O(n^2).
+       The runtime of the quick sort algorithm hinges upon how close the pivot
+       element chosen is to the true median of our dataset. In our
+       implementation, in which the first element is chosen as the pivot, that
+       makes a reverse sorted list (where the max element becomes our pivot)
+       the worst case scenario. This is because quick sort relies upon the
+       divide conquer strategy, but in this subproblem only helps us increase
+       the amount of sorted elements by 1 element, meaning it scales in O(n)
+       time. Because the time to solve each subproblem, aka call the partition
+       function is also O(n) (see above), we end up with a quadratic time
+       complexity overall.
+
+       Memory usage: O(log n) because the number of recursive calls quick_sort
+       pushes onto the call stack scales logarithmically with the size of n.
+       This is because in the average case, each subproblem is half the size of
+       the one that came before; therefore we can compute the amount of space
+       used for all the quick_sort calls total, by repeatedly dividing n by 2.
+       Since quick_sort sorts in-place, each of these stack frames uses only
+       a constant amount of memory.
 
     """
     # Check if high and low range bounds have default values (not given)
