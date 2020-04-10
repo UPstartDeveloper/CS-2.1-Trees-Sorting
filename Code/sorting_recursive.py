@@ -1,5 +1,6 @@
 #!python
 from sorting_iterative import insertion_sort
+from random import randint
 
 
 def merge(items1, items2):
@@ -111,31 +112,33 @@ def get_pivot(collection):
        'median of three' algorithm.
 
        How a Pivot is Chosen: "Median of 3"
-       1) Take the first item in items (at the zero index)
-       2) Take the item from the last index in the array
-       3) Take the item at at the middle index in the array
-       4) The pivot is the element that is the median of the above three
-       5) The three elements go back in the array in sorted order, relative to
+       1) Take three random indices in the collection (a Python list)/
+       2) The pivot is the element that is the median of the above three
+       3) The three elements go back in the array in sorted order, relative to
           whichever 3 index positions they were pulled from.
           (i.e. if the element pulled from the last index was found to the
            median, it would go back into items at the index the middle element
            orignally occupied).
 
     """
-    # pull out the first, middle, and last elements
-    mid, last_index = len(collection) // 2, (len(collection) - 1)
+    # pull out three random indices in the collection
+    first_rand = randint(0, len(collection) - 1)
+    second_rand = randint(0, len(collection) - 1)
+    third_rand = randint(0, len(collection) - 1)
     first, middle, last = (
-        collection[0], collection[mid], collection[last_index]
+        collection[first_rand],
+        collection[second_rand],
+        collection[third_index]
     )
     sub_three = [first, middle, last]
     # sort the three
     insertion_sort(sub_three)
     # place back in the items array
-    collection[0] = sub_three[0]
-    pivot = collection[mid] = sub_three[1]
-    collection[last_index] = sub_three[2]
-    # return the index and value of the pivot
-    return mid, pivot
+    collection[first_rand] = sub_three[0]
+    pivot = collection[second_rand] = sub_three[1]
+    collection[third_rand] = sub_three[2]
+    # return the index position pivot
+    return second_rand
 
 
 def get_left_ref(items, low, high, pivot):
