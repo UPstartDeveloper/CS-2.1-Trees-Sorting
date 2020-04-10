@@ -228,3 +228,15 @@ def insertion_sort(items):
         items.insert(insert_at, insert_item)
         # move on to the next index
         next_index += 1
+
+
+def cocktail_shaker_sort(items):
+    """A variation of the bubble sort algorithm, in which swaps are made while
+       iterating through the list left to right, as well as right to left.
+
+       Parameters:
+       items(list): elements of any data type, duplicates are possible.
+
+       Returns: None
+    """
+    pass
