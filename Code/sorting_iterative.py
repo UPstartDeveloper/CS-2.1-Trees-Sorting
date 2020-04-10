@@ -238,6 +238,13 @@ def insertion_sort(items):
         next_index += 1
 
 
+def swap_right_to_left(items, num_swaps, sorted_right):
+    """Iterates through a list, swapping out of place elements.
+       Returns the number of swaps made during the traversal.
+    """
+    pass
+
+
 def cocktail_shaker_sort(items):
     """A variation of the bubble sort algorithm, in which swaps are made while
        iterating through the list left to right, as well as right to left.
@@ -247,4 +254,21 @@ def cocktail_shaker_sort(items):
 
        Returns: None
     """
-    pass
+    sort_one_element(items)
+    # everything to the right of this index is assumed to be sorted
+    sorted_right = len(items)
+    while sorted_right > 0:
+        # number of swaps on a given pass, left to right
+        num_swaps = 0
+        num_swaps += swap_left_to_right(items, num_swaps, sorted_right)
+        # exit early if no swaps made
+        if num_swaps == 0:
+            break
+        # repeat the process right to left
+        num_swaps = 0
+        num_swaps += swap_right_to_left(items, num_swaps, sorted_right)
+        # exit early if no swaps made
+        if num_swaps == 0:
+            break
+        # slowly move marker for where sorted portion of items being
+        sorted_right -= 1
