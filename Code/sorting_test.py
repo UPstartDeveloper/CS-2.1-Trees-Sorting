@@ -240,6 +240,25 @@ class StringSortTest(unittest.TestCase):
         assert items == sorted_items
 
 
+class TupleSortTest(unittest.TestCase):
+    def test_sorting_small_lists_of_tuples(self):
+        # greater comes before first
+        items = [(5, 'B'), (3, 'A')]
+        sorted_items = sorted(items)
+        sort(items)
+        assert items == sorted_items
+        # switching the placement order data types
+        items = [('B', 5), ('A', 3)]
+        sorted_items = sorted(items)
+        sort(items)
+        assert items == sorted_items
+        # unevenly sized tuples
+        items = [(7, 'A', 5, 6), (3, 'B', 7)]
+        sorted_items = sorted(items)
+        sort(items)
+        assert items == sorted_items
+
+
 class MergeSortTest(unittest.TestCase):
     '''This suite of tests is specific to the merge function.'''
     def test_merge_on_integers(self):
