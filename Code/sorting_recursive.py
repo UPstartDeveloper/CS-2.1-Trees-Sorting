@@ -175,118 +175,17 @@ def partition(items_list, low, high):
        TODO: Memory usage: ??? Why and under what conditions?
 
     """
-    # edge case
-    if len(items_list) == 2:
-        if items_list[1] < items_list[0]:
-            items_list[0], items_list[1] = items_list[1], items_list[0]
-            return 0
-    else:
-        print(f'Before Loop: {items_list[low:high+1]}')
-        # Choose a pivot: lowest index element
-        pivot, p_index = items_list[low], low
-        left_scanner = p_index + 1
-        right_scanner = high
-        while left_scanner < right_scanner:
-            while items_list[left_scanner] <= pivot and left_scanner < right_scanner:
-                left_scanner += 1
-            while items_list[right_scanner] > pivot and left_scanner < right_scanner:
-                right_scanner -= 1
-            swap(items_list, left_scanner, right_scanner)
-            # [4, 3, 2, 1, 5, 6, 7]
-        print(f'After Loop:  {items_list[low:high+1]}')
-        swap(items_list, p_index, left_scanner - 1)
-        print(f'After Swap:  {items_list[low:high+1]}')
-        print(f'Items: {items_list}, next pivot: left scanner {items_list[left_scanner]}, ')
-        return left_scanner - 1
-    # if not items_list[greater_than_index] >= pivot:
-    # swap(items_list, p_index, greater_than_index)
-    # return greater_than_index
-
-    '''# Choose a pivot: lowest index element
-    pivot, p_index = items_list[low], low
-    left_scanner = p_index + 1
-    # right_scanner = high
-    for i in range(p_index + 1, high):
-        item = items_list[i]
-        if item <= pivot:
-            swap(items_list, i, greater_than_index)
-            greater_than_index += 1
-    # if not items_list[greater_than_index] >= pivot:
-    swap(items_list, p_index, greater_than_index)
-    print(f'Items: {items_list}, next pivot: index {greater_than_index}')
-    return greater_than_index'''
-
-
-'''
-    # Choose a pivot: lowest index element
-    pivot, p_index = items_list[low], low
-    lower_than_index, greater_than_index = low, high
-    while lower_than_index < greater_than_index:
-        while items_list[lower_than_index] <= pivot and lower_than_index < greater_than_index:
-            lower_than_index += 1
-        while items_list[greater_than_index] > pivot:
-            greater_than_index -= 1
-        if lower_than_index < greater_than_index:
-            swap(items_list, lower_than_index, greater_than_index)
-    swap(items_list, lower_than_index, p_index)
-    print(f'Items: {items_list}, next pivot: index {lower_than_index}')
-    return lower_than_index'''
-
-'''
-    # Choose a pivot: highest index element
-    pivot = items_list[-1]
-    # TODO: Loop through all items in range [low...high]
-    left = 0
-    right = len(items_list) - 2
-    p_index = len(items_list) - 1
-    # while left < p_index:
-    while left < right:
-        if items_list[left] < pivot:
-            left += 1
-        if items_list[right] > pivot:
-            right -= 1
-        # TODO: Move items less than pivot into front of range [low...p-1]
-        # TODO: Move items greater than pivot into back of range [p+1...high]
-        if items_list[left] > pivot and items_list[right] < pivot:
-            swap(items_list, left, right)
-            left, right = right, left
-    # TODO: Move pivot item into final position [p] and return index p
-    swap(items_list, left, p_index)
-    print("Stop iterating")
-    print(items_list)
-    print(left)
-    return left
-    '''
-'''
-    # Choose a pivot
-    p, pivot = get_pivot(items_list)
+    # shoutout to Alex, Ramon, Jerome, Uyen, Alan, and Andrey for your help!
+    # choose the lowest index to be the pivot
+    p_index = low
     # Loop through all items in range [low...high]
-    for i in range(low, high):
-        # print(i)
-        item = items_list[i]
+    for i in range(low, high + 1):
         # Move items less than pivot into front of range [low...p-1]
-        if item <= pivot and not i <= p:
-            items_list.insert(0,  items_list.pop(i))
-            p += 1
-        # Move items greater than pivot into back of range [p+1...high]
-        elif item > pivot and not i > p:
-            items_list.insert(p, items_list.pop(i))
-            p -= 1
+        if items_list[i] <= items_list[p_index]:
+            items_list[low], items_list[i] = items_list[i], items_list[low]
+            i += 1
     # return index p
-    # print("Stop iterating")
-    return p
-    '''
-'''
-    p, pivot = get_pivot(items)
-    while low < p and high > p:
-        low += 1
-        high -= 1
-        if items[low] > pivot and items[high] <= pivot:
-            items[low], items[high] = items[high], items[low]
-        if low >= high:
-            items[low], pivot = pivot, items[low]
-    return p
-    '''
+    return p_index
 
 
 def quick_sort(items, low=None, high=None):
@@ -300,56 +199,16 @@ def quick_sort(items, low=None, high=None):
        TODO: Memory usage: ??? Why and under what conditions?
 
     """
-    # TODO: Check if high and low range bounds have default values (not given)
+    # Check if high and low range bounds have default values (not given)
     if low is None and high is None:
         low = 0
         high = len(items) - 1
-    # TODO: Check if list or range is so small it's already sorted (base case)
-    # if high - low <= 2:
-        # print("exit")
-        # return items
-    # TODO: Partition items in-place around a pivot and get index of pivot
-    # print(index_p, low, high)
-    # TODO: Sort each sublist range by recursively calling quick sort
-    if low < high:  # recursive case
+    # Recursive case
+    if low < high:
         index_p = partition(items, low, high)
         quick_sort(items, low, index_p - 1)
         quick_sort(items, index_p + 1, high)
-        # print("exit here")
-        # return items
-    '''
-    # TODO: Check if high and low range bounds have default values (not given)
-    if low is None and high is None:
-        low = 0
-        high = len(items) - 1
-    # TODO: Check if list or range is so small it's already sorted (base case)
-    if len(items) < 2:
-        items[:] = items
-# print(f'Items: {items}')
-        return items
-    # TODO: Partition items in-place around a pivot and get index of pivot
-    hi_index = len(items)
-    p = partition(items, 0, hi_index)
-    # after_p = p + 1
-    # TODO: Sort each sublist range by recursively calling quick sort
-    quick_sort(items[0:p], 0, p - 1)
-    quick_sort(items[p:hi_index], p, hi_index)
-    '''
 
-
-'''
-# TODO: Check if high and low range bounds have default values (not given)
-if low is None and high is None:
-    low = 0
-    high = len(items)
-# TODO: Check if list or range is so small it's already sorted (base case)
-if len(items) > 1:
-    # TODO: Partition items in-place around a pivot and get index of pivot
-    p = partition(items, low, high)
-    # TODO: Sort each sublist range by recursively calling quick sort
-    hi_index = len(items)
-    quick_sort(items[0:p], 0, p - 1)
-    quick_sort(items[p:hi_index], p, hi_index)'''
 
 if __name__ == '__main__':
     # quick_sort([9, 8, 3, 6, 12, 13, 4, 14, 7, 1], 0, 9)
