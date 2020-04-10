@@ -128,7 +128,7 @@ def get_pivot(collection):
     first, middle, last = (
         collection[first_rand],
         collection[second_rand],
-        collection[third_index]
+        collection[third_rand]
     )
     sub_three = [first, middle, last]
     # sort the three
@@ -182,9 +182,9 @@ def partition(items_list, low, high):
     # choose the lowest index to be the pivot
     p_index = low
     # Loop through all items in range [low...high]
-    for i in range(low, high + 1):
+    for i in range(low + 1, high + 1):
         # Move items less than pivot into front of range [low...p-1]
-        if items_list[i] <= items_list[p_index]:
+        if items_list[i] < items_list[p_index]:
             items_list[low], items_list[i] = items_list[i], items_list[low]
             i += 1
     # return index p

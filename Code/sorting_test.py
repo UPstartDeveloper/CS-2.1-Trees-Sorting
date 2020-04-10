@@ -14,6 +14,7 @@ from sorting_recursive import (
 )
 from sorting_integer import counting_sort, bucket_sort
 import unittest
+import random
 
 
 class IsSortedTest(unittest.TestCase):
@@ -279,14 +280,21 @@ class QuickSortTest(unittest.TestCase):
         The elements of an array are split so that the pivot element falls
         into its (ascendingly) sorted position in the final array.
         """
-        pass
+        # one swap at the end
+        list = [5, 6, 7, 8, 9, 2]
+        partition(list, 0, 5)
+        assert list == [2, 6, 7, 8, 9, 5]  # should be improved in future
 
-    def test_get_pivot(self):
+    def test_get_pivot_in_correct_range(self):
         """
         The pivot is chosen through a variation of the median of three
         approach.
+        This function uses the random.randint function, which complicates the
+        process of testing the exact return value. Instead, the test looks to
+        check if the return value is in the correct range.
         """
-        pass
+        list = [5, 6, 7, 8, 9, 2]
+        assert 0 <= get_pivot(list) <= 5  # between the first and last indices
 
 
 def get_sort_function():
