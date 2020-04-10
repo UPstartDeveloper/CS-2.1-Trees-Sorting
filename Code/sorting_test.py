@@ -2,7 +2,11 @@
 
 from sorting import random_ints
 from sorting_iterative import (
-    is_sorted, bubble_sort, selection_sort, insertion_sort
+    is_sorted,
+    bubble_sort,
+    selection_sort,
+    insertion_sort,
+    cocktail_shaker_sort
 )
 from sorting_recursive import (
     split_sort_merge,
@@ -345,7 +349,7 @@ def get_sort_function():
 
 
 # If using PyTest, change this variable to the sort function you want to test
-sort = bubble_sort
+sort = cocktail_shaker_sort
 
 
 if __name__ == '__main__':

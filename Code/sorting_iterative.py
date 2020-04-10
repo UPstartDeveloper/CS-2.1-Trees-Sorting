@@ -242,7 +242,14 @@ def swap_right_to_left(items, num_swaps, sorted_right):
     """Iterates through a list, swapping out of place elements.
        Returns the number of swaps made during the traversal.
     """
-    pass
+    for i in range(sorted_right, 1, -1):
+        right_index = i - 1
+        left_index = i - 2
+        # make swaps between adjacent elements as needed
+        if items[left_index] > items[right_index]:
+            items = swap_adjacent_items(items, left_index, right_index)
+            num_swaps += 1
+    return num_swaps
 
 
 def cocktail_shaker_sort(items):
