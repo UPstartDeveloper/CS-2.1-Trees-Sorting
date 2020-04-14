@@ -122,24 +122,31 @@ def get_pivot(collection):
            orignally occupied).
 
     """
-    # pull out three random indices in the collection
-    first_rand = randint(0, len(collection) - 1)
-    second_rand = randint(0, len(collection) - 1)
-    third_rand = randint(0, len(collection) - 1)
+    # pull out three random indices in the collection - will revisit when
+    # we can prevent the same index being chosen more than once
+    # first_rand = randint(0, len(collection) - 1)
+    # second_rand = randint(0, len(collection) - 1)
+    # third_rand = randint(0, len(collection) - 1)
+    first_index = 0
+    mid_index = len(collection) // 2
+    last_index = len(collection) - 1
     first, middle, last = (
-        collection[first_rand],
-        collection[second_rand],
-        collection[third_rand]
+        collection[first_index],
+        collection[len(collection) // 2],
+        collection[last_index]
     )
     sub_three = [first, middle, last]
     # sort the three
     insertion_sort(sub_three)
+    # print(sub_three)
     # place back in the items array
-    collection[first_rand] = sub_three[0]
-    pivot = collection[second_rand] = sub_three[1]
-    collection[third_rand] = sub_three[2]
+    collection[first_index] = sub_three[0]
+    pivot = collection[mid_index] = sub_three[1]
+    collection[last_index] = sub_three[2]
+    # print(pivot)
+    # print(collection)
     # return the index position pivot
-    return second_rand
+    return first_index
 
 
 def get_left_ref(items, low, high, pivot):
@@ -189,9 +196,22 @@ def partition(items_list, low, high):
                      respect to the size of the input
 
     """
+    p_index = get_pivot(items_list)
+    left_i, right_i = low, high
+    pivot = items_list[p_index]
+    while left_i < right_i:
+        while items_list[left_i] <= pivot and left_i < right_i:
+            left_i += 1
+        while items_list[right_i] > pivot:
+            right_i -= 1
+        swap(items_list, left_i, right_i)
+    swap(items_list, p_index, left_i)
+    return left_i
+    '''
     # shoutout to Alex, Ramon, Jerome, Uyen, Alan, and Andrey for your help!
     # choose the lowest index to be the pivot
     p_index = low
+    # p_index = get_pivot(items_list)
     # Loop through all items in range [low...high]
     for i in range(low + 1, high + 1):
         # Move items less than pivot into front of range [low...p-1]
@@ -199,7 +219,7 @@ def partition(items_list, low, high):
             swap(items_list, i, low)
             i += 1
     # return index p
-    return p_index
+    return p_index'''
 
 
 def quick_sort(items, low=None, high=None):
@@ -250,7 +270,10 @@ def quick_sort(items, low=None, high=None):
 
 
 if __name__ == '__main__':
-    # Speed Test: Merge Sort vs. Quick Sort
+    items = [3, 1, 5, 6, 2]
+    quick_sort(items)
+    print(items)
+    '''# Speed Test: Merge Sort vs. Quick Sort
 
     # 1) Test on Randomly Ordered Input
     print("Random Item Distribution, 100 values")
@@ -307,4 +330,4 @@ if __name__ == '__main__':
     print(f'Merge Sort -> {m_sort_time}')
     print(f'Quick Sort -> {q_sort_time}\n')
 
-    print('And the Winner is: Merge Sort!!')
+    print('And the Winner is: Merge Sort!!')'''
