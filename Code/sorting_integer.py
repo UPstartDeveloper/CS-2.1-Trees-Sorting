@@ -1,5 +1,7 @@
 #!python
 import sys
+from linkedlist import LinkedList, Node
+from sorting_recursive import merge_sort
 
 
 def find_max(numbers):
@@ -43,14 +45,54 @@ def counting_sort(numbers):
         numbers_index += count
 
 
+def calculate_bucket_index(numbers, number, max):
+    """Return index of where a number should be stored in buckets.
+       Credit for algorithm goes to USF's bucket sort animation:
+       https://www.cs.usfca.edu/~galles/visualization/BucketSort.html
+
+    """
+    number = numbers[index]
+    num_elements = len(numbers)
+    return (number * num_elements) // (max + 1)
+
+
 def bucket_sort(numbers, num_buckets=10):
     """Sort given numbers by distributing into buckets representing subranges,
     then sorting each bucket and concatenating all buckets in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
     # TODO: Find range of given numbers (minimum and maximum values)
+    maximum, minimum, number_amt = (
+        find_max(numbers),
+        find_min(numbers),
+        len(numbers)
+    )
+    # range = maximum - minimum
     # TODO: Create list of buckets to store numbers in subranges of input range
+    num_buckets = number_amt
+    buckets = [LinkedList() for _ in range(num_buckets)]
     # TODO: Loop over given numbers and place each item in appropriate bucket
+    for index, number in enumerate(numbers):
+        # bucket_index = calculate_bucket_index(numbers, number, maximum)
+        bucket_index = (number * number_amt) // (maximum + 1)
+        # print(f'Bucket index: {bucket_index}')
+        # print(bucket_index)
+        buckets[bucket_index].append(number)
+    # print(f'Buckets before sorting: {buckets}')
     # TODO: Sort each bucket using any sorting algorithm (recursive or another)
+    for index, bucket in enumerate(buckets):
+        if bucket.size > 0:
+            values = bucket.items()
+            merge_sort(values)
+            buckets[index] = LinkedList(values)
+    # print(f'Buckets after sorting: {buckets}')
     # TODO: Loop over buckets and append each bucket's numbers into output list
+    numbers_index = 0
+    for index, bucket in enumerate(buckets):
+        b_size = bucket.size
+        if b_size > 0:
+            for i in range(b_size):
+                numbers[numbers_index + i] = bucket.get_at_index(i)
+            numbers_index += b_size
+    # print(f'After Sorting: {numbers}')
     # FIXME: Improve this to mutate input instead of creating new output list
