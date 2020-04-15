@@ -3,12 +3,21 @@ import sys
 
 
 def find_max(numbers):
-    '''Linear search for the maximum element in a list of integers.'''
+    '''Linear search for the maximum element in a list of unsorted integers.'''
     maximum = -(sys.maxsize)
     for num in numbers:
         if num > maximum:
             maximum = num
     return maximum
+
+
+def find_min(numbers):
+    '''Linear search for the least element in a list of unsorted integers.'''
+    minimum = sys.maxsize
+    for num in numbers:
+        if num < minimum:
+            minimum = num
+    return minimum
 
 
 def counting_sort(numbers):
@@ -17,17 +26,20 @@ def counting_sort(numbers):
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
     # Find range of given numbers (minimum and maximum integer values)
-    maximum = find_max(numbers)
+    maximum, minimum = find_max(numbers), find_min(numbers)
     # Create list of counts with a slot for each number in input range
-    counts = [0 for _ in range(maximum + 1)]
+    # using range to reduce the number of indices needed at front of counts
+    offset = maximum - minimum
+    counts = [0 for _ in range(offset + 1)]
     # Loop over given numbers and increment each number's count
     for number in numbers:
-        counts[number] += 1
+        counts[number - minimum] += 1
     # Loop over counts and overwirtes the input list
     numbers_index = 0
     for number, count in enumerate(counts):
         for j in range(count):
-            numbers[numbers_index + j] = number
+            # use minimum to write the number, not the count into numbers list
+            numbers[numbers_index + j] = number + minimum
         numbers_index += count
 
 
