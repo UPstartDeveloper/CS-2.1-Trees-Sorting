@@ -38,7 +38,7 @@ def counting_sort(numbers):
     numbers_index = 0
     for number, count in enumerate(counts):
         for j in range(count):
-            # use minimum to write the number, not the count into numbers list
+            # use min to write the number, not the count into numbers list
             numbers[numbers_index + j] = number + minimum
         numbers_index += count
 
