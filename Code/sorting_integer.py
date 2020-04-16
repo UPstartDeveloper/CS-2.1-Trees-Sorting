@@ -1,7 +1,7 @@
 #!python
 import sys
 from linkedlist import LinkedList, Node
-from sorting_recursive import merge_sort
+from sorting_recursive import merge_sort, quick_sort
 from sorting_iterative import sort_one_element
 
 
@@ -165,4 +165,61 @@ def bucket_sort(numbers, num_buckets=10):
             numbers_index += b_size
 
     if __name__ == '__main__':
-        main()
+        # Speed Test: Merge Sort vs. Counting Sort
+
+        # 1) Test on Randomly Ordered Input
+        print("Random Item Distribution, 100 values")
+        # make the dataset
+        items = [randint(0, 500) for i in range(100)]
+        # time each function
+        m_sort_time, q_sort_time = (
+            time_this_sort(merge_sort, items, False),
+            time_this_sort(quick_sort, items, False)
+        )
+        # display times
+        print(f'Merge Sort -> {m_sort_time}')
+        print(f'Quick Sort -> {q_sort_time} \n')
+
+        # 2) Test on Nearly Sorted Input
+        print("Nearly Sorted Distribution, 200 values")
+        # make the dataset
+        items = list(range(200))
+        items.append(5)
+        # time each function
+        m_sort_time, q_sort_time = (
+            time_this_sort(merge_sort, items, False),
+            time_this_sort(quick_sort, items, False)
+        )
+        # display times
+        print(f'Merge Sort -> {m_sort_time}')
+        print(f'Quick Sort -> {q_sort_time}\n')
+
+        # 3) Test on Descendingly-Sorted Input
+        print("Reverse Sorted Order Distribution, 500 values")
+        # make the dataset
+        items = list(range(500, 0, -1))
+        # time each function
+        m_sort_time, q_sort_time = (
+            time_this_sort(merge_sort, items, False),
+            time_this_sort(quick_sort, items, False)
+        )
+        # display times
+        print(f'Merge Sort -> {m_sort_time}')
+        print(f'Quick Sort -> {q_sort_time}\n')
+
+        # 4) Test on Input with Few Unique
+        print("Few Unique Distribution, 700 values")
+        # make the dataset
+        items = [1] * 200
+        items.extend([3] * 300)
+        items.extend([2] * 200)
+        # time each function
+        m_sort_time, q_sort_time = (
+            time_this_sort(merge_sort, items, False),
+            time_this_sort(quick_sort, items, False)
+        )
+        # display times
+        print(f'Merge Sort -> {m_sort_time}')
+        print(f'Quick Sort -> {q_sort_time}\n')
+
+        print('And the Winner is: Merge Sort!!')

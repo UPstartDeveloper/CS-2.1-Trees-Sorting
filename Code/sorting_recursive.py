@@ -196,6 +196,7 @@ def partition(items_list, low, high):
                      respect to the size of the input
 
     """
+    '''
     p_index = get_pivot(items_list)
     left_i, right_i = low, high
     pivot = items_list[p_index]
@@ -219,7 +220,7 @@ def partition(items_list, low, high):
             swap(items_list, i, low)
             i += 1
     # return index p
-    return p_index'''
+    return p_index
 
 
 def quick_sort(items, low=None, high=None):
