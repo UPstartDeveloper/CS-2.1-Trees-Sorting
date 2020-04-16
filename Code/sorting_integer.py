@@ -4,6 +4,7 @@ from linkedlist import LinkedList, Node
 from sorting_recursive import merge_sort, quick_sort
 from sorting_iterative import sort_one_element, insertion_sort
 from timing import compare_two_sorting_times
+from pprint import pprint
 
 
 def find_max(numbers):
@@ -86,12 +87,15 @@ def make_buckets(numbers):
     # make appropiately sized list of buckets
     num_buckets = int(range_of_num // interval)
     buckets = [LinkedList() for _ in range(num_buckets)]
+    midpoint = range_of_num // 2
     # sort values into buckets, using the ranges of each bucket
     for number in numbers:
         bucket_index = 0
         lower_bound = minimum - 1
         upper_bound = lower_bound + interval + 1
         # find the bucket this element belongs in
+        percentile = number / range
+        '''
         while bucket_index < len(buckets):
             if number > lower_bound and number <= upper_bound:
                 # numbers fits, now add it to the bucket
@@ -102,6 +106,8 @@ def make_buckets(numbers):
                 lower_bound += interval
                 upper_bound += interval
                 bucket_index += 1
+            pprint(buckets[bucket_index])
+        '''
     return buckets
 
 
@@ -150,6 +156,11 @@ def bucket_sort(numbers, num_buckets=10):
     for index, number in enumerate(numbers):  # O(n)
         bucket_index = (number * number_amt) // (maximum + 1)
         buckets[bucket_index].append(number)
+
+        # [-7. 5, 4, -3]
+
+        # buckets
+        # [(-7), (4),  (5), (-3)]
     # Sort each bucket using any sorting algorithm (recursive or another)
     for index, bucket in enumerate(buckets):  # n iterations
         if bucket.size > 0:  # this has less iterations as duplicates increase
