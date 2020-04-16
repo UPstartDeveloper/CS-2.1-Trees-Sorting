@@ -2,6 +2,7 @@
 import sys
 from linkedlist import LinkedList, Node
 from sorting_recursive import merge_sort
+from sorting_iterative import sort_one_element
 
 
 def find_max(numbers):
@@ -45,11 +46,43 @@ def counting_sort(numbers):
         numbers_index += count
 
 
+def make_buckets(numbers):
+    '''Use distribution metrics to sort values into buckets.'''
+    # compute useful stats about distribution of numbers
+    maximum, minimum, number_amt = (
+        find_max(numbers),
+        find_min(numbers),
+        len(numbers)
+    )
+    range_of_num, mean = (maximum - minimum, sum(numbers)/number_amt)
+    # calculate interval for each bucket
+    interval = range_of_num / number_amt
+    # make appropiately sized list of buckets
+    num_buckets = int(range_of_num // interval)
+    buckets = [LinkedList() for _ in range(num_buckets)]
+    # sort values into buckets, using the ranges of each bucket
+    for number in numbers:
+        bucket_index = 0
+        lower_bound = minimum - 1
+        upper_bound = lower_bound + interval + 1
+        # find the bucket this element belongs in
+        while bucket_index < len(buckets):
+            if number > lower_bound and number <= upper_bound:
+                # numbers fits, now add it to the bucket
+                buckets[bucket_index].append(number)
+                bucket_index = len(buckets)
+            else:
+                # move the bounds up after each iteration
+                lower_bound += interval
+                upper_bound += interval
+                bucket_index += 1
+    return buckets
+
+
 def calculate_bucket_index(numbers, number, max):
     """Return index of where a number should be stored in buckets.
        Credit for algorithm goes to USF's bucket sort animation:
        https://www.cs.usfca.edu/~galles/visualization/BucketSort.html
-
     """
     number = numbers[index]
     num_elements = len(numbers)
@@ -94,5 +127,6 @@ def bucket_sort(numbers, num_buckets=10):
             for i in range(b_size):
                 numbers[numbers_index + i] = bucket.get_at_index(i)
             numbers_index += b_size
-    # print(f'After Sorting: {numbers}')
-    # FIXME: Improve this to mutate input instead of creating new output list
+
+    if __name__ == '__main__':
+        main()
