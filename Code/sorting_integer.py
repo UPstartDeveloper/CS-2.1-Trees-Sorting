@@ -116,31 +116,48 @@ def calculate_bucket_index(numbers, number, max):
 
 def bucket_sort(numbers, num_buckets=10):
     """Sort given numbers by distributing into buckets representing subranges,
-    then sorting each bucket and concatenating all buckets in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+       then sorting each bucket and concatenating all buckets in sorted order.
+
+       Running time: O(n * subranges), where n is the size of the numbers array
+       and subranges repesents the size of the duplicates. This is because the
+       runtime of this method asymptotically scales with respect to the time
+       it takes to place all the elements in buckets. This step will grow with
+       the total number of elements being sorted. It will also grow with the
+       number of duplicates, because they will end up in the same bucket, and
+       that will increase the runtime we use to execute merge sort on that
+       bucket. In the best case subranges is much less than n, so the overall
+       complexity tends towards O(n). In the worst case all the values are
+       duplicates. so they end up in the same bucket, and are sorted in
+       the same time it would take to just use merge sort by itself on numbers.
+
+       Memory usage: O(n^2) because the memory required to execute
+       this function scales with the size of the buckets array we construct.
+       The number of elements in this list is n, and the number of LinkedList
+       nodes across all the array positions is also n.
+
+    """
     # Find range of given numbers (minimum and maximum values)
-    maximum, minimum, number_amt = (
+    maximum, minimum, number_amt = (  # n
         find_max(numbers),
         find_min(numbers),
         len(numbers)
     )
     # Create list of buckets to store numbers in subranges of input range
     num_buckets = number_amt
-    buckets = [LinkedList() for _ in range(num_buckets)]
+    buckets = [LinkedList() for _ in range(num_buckets)]  # n
     # Loop over given numbers and place each item in appropriate bucket
-    for index, number in enumerate(numbers):
+    for index, number in enumerate(numbers):  # O(n)
         bucket_index = (number * number_amt) // (maximum + 1)
         buckets[bucket_index].append(number)
     # Sort each bucket using any sorting algorithm (recursive or another)
-    for index, bucket in enumerate(buckets):
-        if bucket.size > 0:
+    for index, bucket in enumerate(buckets):  # n iterations
+        if bucket.size > 0:  # this has less iterations as duplicates increase
             values = bucket.items()
-            merge_sort(values)
-            buckets[index] = LinkedList(values)
+            merge_sort(values)  # linearithmic time, over only a subset
+            buckets[index] = LinkedList(values)  # linear for only a subset
     # Loop over buckets and append each bucket's numbers into output list
     numbers_index = 0
-    for index, bucket in enumerate(buckets):
+    for index, bucket in enumerate(buckets):  #
         b_size = bucket.size
         if b_size > 0:
             for i in range(b_size):
