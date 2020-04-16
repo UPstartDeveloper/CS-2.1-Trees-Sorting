@@ -1,4 +1,5 @@
 import time
+from random import randint
 
 
 def time_this_sort(sorter, items_to_sort, display=True):
