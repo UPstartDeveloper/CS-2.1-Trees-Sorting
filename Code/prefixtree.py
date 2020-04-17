@@ -35,15 +35,17 @@ class PrefixTree:
 
     def is_empty(self):
         """Return True if this prefix tree is empty (contains no strings)."""
-        # TODO
+        return (self.size == 0)
 
     def contains(self, string):
         """Return True if this prefix tree contains the given string."""
-        # TODO
+        return (string in self.strings())
 
     def insert(self, string):
         """Insert the given string into this prefix tree."""
-        # TODO
+        # base case: make sure the string not already in the tree
+        if self.contains(string) is False:
+            pass
 
     def _find_node(self, string):
         """Return a pair containing the deepest node in this prefix tree that
@@ -55,7 +57,16 @@ class PrefixTree:
             return self.root, 0
         # Start with the root node
         node = self.root
-        # TODO
+        # loop through the letters in string
+        index, char = 0, string[0]
+        # on each iteration see it that letter is a child of node
+        while node.has_child(char) is True:
+            # if it is, then move node to that child, and move to next char
+            node = node.get_child(char)
+            index += 1
+            char = string[index]
+        # return the pair of the node and the index
+        return node, index
 
     def complete(self, prefix):
         """Return a list of all strings stored in this prefix tree that start
@@ -74,7 +85,13 @@ class PrefixTree:
         """Traverse this prefix tree with recursive depth-first traversal.
         Start at the given node with the given prefix representing its path in
         this prefix tree and visit each node with the given visit function."""
-        # TODO
+        # visit the current node
+        visit(self)
+        # find out if child with given prefix exists
+        if node.has_child(prefix):
+            child = self.get_child(prefix)
+            next_prefix = child.character
+            return self._traverse(self.get_child(prefix), next_prefix, visit)
 
 
 def create_prefix_tree(strings):

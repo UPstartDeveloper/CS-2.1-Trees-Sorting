@@ -3,10 +3,10 @@
 
 class PrefixTreeNode:
     """PrefixTreeNode: A node for use in a prefix tree that stores a single
-       character from a string and a structure of children nodes below it, which
-       associates the next character in a string to the next node along its path
-       from the tree's root node to a terminal node that marks the end of the
-       string.
+       character from a string and a structure of children nodes below it,
+       which associates the next character in a string to the next node along
+       its path from the tree's root node to a terminal node that marks the end
+       of the string.
 
     """
     # Choose an appropriate type of data structure to store children nodes in
