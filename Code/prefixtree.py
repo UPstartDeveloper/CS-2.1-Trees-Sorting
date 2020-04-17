@@ -89,7 +89,8 @@ class PrefixTree:
         with the given prefix string."""
         # Create a list of completions in prefix tree
         completions = []
-        completions.extend([self._traverse(self.root, prefix, None)])
+        node = self._find_node(prefix)[0]
+        self._traverse(node, prefix, completions.append)
         return completions
         '''
         # find the node that's as far down as possible given the prefix
@@ -105,13 +106,25 @@ class PrefixTree:
         # Create a list of all strings in prefix tree
         all_strings = []
         # TODO
-        all_strings.extend(self._traverse(self.root, '', None))
-        return [word[len(word) - 1] for word in all_strings]
+        self._traverse(self.root, '', all_strings.append)
+        return all_strings
 
     def _traverse(self, node, prefix, visit):
         """Traverse this prefix tree with recursive depth-first traversal.
         Start at the given node with the given prefix representing its path in
         this prefix tree and visit each node with the given visit function."""
+        if node.is_terminal() is True and len(node.children) == 0:
+            return prefix
+        elif node.is_terminal() is True:
+            visit(prefix)
+            # return self._traverse(child, prefix + char, visit)
+        # else:
+        for char in node.children.keys():
+            child = node.get_child(char)
+            string = self._traverse(child, prefix + char, visit)
+            visit(string)
+
+        '''
         # visit the current node
         # visit(node)
         # if node marks the end, return the prefix
@@ -125,6 +138,7 @@ class PrefixTree:
                 string = self._traverse(child, prefix + char, None)
                 strings.append(string)
             return strings
+        '''
 
 
 def create_prefix_tree(strings):
