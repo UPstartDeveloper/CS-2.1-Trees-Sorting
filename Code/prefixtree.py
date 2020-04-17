@@ -43,9 +43,18 @@ class PrefixTree:
 
     def insert(self, string):
         """Insert the given string into this prefix tree."""
-        # base case: make sure the string not already in the tree
+        # make sure the string not already in the tree
         if self.contains(string) is False:
-            pass
+            # find the node to start adding new letters from
+            curr_node, index = self._find_node(string)
+            # for each index position in the string greater than index
+            for i in range(index + 1, len(string)):
+                # returned, add a new child node of the node returned
+                next_char = string[i]
+                new_node = PrefixTreeNode(next_char)
+                curr_node.add_child(next_char, new_node)
+                # then move the current node to its child
+                curr_node = new_node
 
     def _find_node(self, string):
         """Return a pair containing the deepest node in this prefix tree that
@@ -86,7 +95,7 @@ class PrefixTree:
         Start at the given node with the given prefix representing its path in
         this prefix tree and visit each node with the given visit function."""
         # visit the current node
-        visit(self)
+        visit(node)
         # find out if child with given prefix exists
         if node.has_child(prefix):
             child = self.get_child(prefix)
