@@ -154,7 +154,7 @@ class IntegerSortTest(unittest.TestCase):
         assert items6 == [2, 2, 2, 4, 5, 7, 57]
         items7 = [-5, 7, -5, 2, 4, -5, -8]
         sort(items7)
-        # assert items7 == [-8, -5, -5, -5, 2, 4, 7]  # counting_sort fails
+        assert items7 == [-8, -5, -5, -5, 2, 4, 7]  # counting_sort fails
 
     def test_sort_on_lists_of_random_integers(self):
         # Generate list of 10 random integers from range [1...20]
@@ -349,7 +349,7 @@ def get_sort_function():
 
 
 # If using PyTest, change this variable to the sort function you want to test
-sort = quick_sort
+sort = bucket_sort
 
 
 if __name__ == '__main__':

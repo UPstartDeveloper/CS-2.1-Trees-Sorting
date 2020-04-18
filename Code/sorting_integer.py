@@ -5,6 +5,7 @@ from sorting_recursive import merge_sort, quick_sort
 from sorting_iterative import sort_one_element, insertion_sort
 from timing import compare_two_sorting_times
 from pprint import pprint
+import math
 
 
 def find_max(numbers):
@@ -81,47 +82,27 @@ def make_buckets(numbers):
         find_min(numbers),
         len(numbers)
     )
-    range_of_num, mean = (maximum - minimum, sum(numbers)/number_amt)
-    # calculate interval for each bucket
-    interval = range_of_num / number_amt
-    # make appropiately sized list of buckets
-    num_buckets = int(range_of_num // interval)
-    buckets = [LinkedList() for _ in range(num_buckets)]
-    midpoint = range_of_num // 2
-    # sort values into buckets, using the ranges of each bucket
-    for number in numbers:
-        bucket_index = 0
-        lower_bound = minimum - 1
-        upper_bound = lower_bound + interval + 1
-        # find the bucket this element belongs in
-        percentile = number / range
-        '''
-        while bucket_index < len(buckets):
-            if number > lower_bound and number <= upper_bound:
-                # numbers fits, now add it to the bucket
-                buckets[bucket_index].append(number)
-                bucket_index = len(buckets)
+    if number_amt > 2:
+        range_of_num, mean = (maximum - minimum, sum(numbers)/number_amt)
+        # calculate interval for each bucket
+        interval = range_of_num / number_amt
+        # make appropiately sized list of buckets
+        num_buckets = number_amt
+        buckets = [LinkedList() for _ in range(num_buckets)]
+        # using percentile to determine relative location of values
+        for number in numbers:
+            if number >= 0:
+                percentile = number / range_of_num
             else:
-                # move the bounds up after each iteration
-                lower_bound += interval
-                upper_bound += interval
-                bucket_index += 1
-            pprint(buckets[bucket_index])
-        '''
+                # accounting for negatives by multiplying by -1
+                percentile = (number * -1) / range_of_num
+            buckets[math.floor(percentile)].append(number)
+    else:
+        buckets = [LinkedList(numbers)]
     return buckets
 
 
-def calculate_bucket_index(numbers, number, max):
-    """Return index of where a number should be stored in buckets.
-       Credit for algorithm goes to USF's bucket sort animation:
-       https://www.cs.usfca.edu/~galles/visualization/BucketSort.html
-    """
-    number = numbers[index]
-    num_elements = len(numbers)
-    return (number * num_elements) // (max + 1)
-
-
-def bucket_sort(numbers, num_buckets=10):
+def bucket_sort(numbers):
     """Sort given numbers by distributing into buckets representing subranges,
        then sorting each bucket and concatenating all buckets in sorted order.
 
@@ -143,24 +124,7 @@ def bucket_sort(numbers, num_buckets=10):
        nodes across all the array positions is also n.
 
     """
-    # Find range of given numbers (minimum and maximum values)
-    maximum, minimum, number_amt = (  # n
-        find_max(numbers),
-        find_min(numbers),
-        len(numbers)
-    )
-    # Create list of buckets to store numbers in subranges of input range
-    num_buckets = number_amt
-    buckets = [LinkedList() for _ in range(num_buckets)]  # n
-    # Loop over given numbers and place each item in appropriate bucket
-    for index, number in enumerate(numbers):  # O(n)
-        bucket_index = (number * number_amt) // (maximum + 1)
-        buckets[bucket_index].append(number)
-
-        # [-7. 5, 4, -3]
-
-        # buckets
-        # [(-7), (4),  (5), (-3)]
+    buckets = make_buckets(numbers)
     # Sort each bucket using any sorting algorithm (recursive or another)
     for index, bucket in enumerate(buckets):  # n iterations
         if bucket.size > 0:  # this has less iterations as duplicates increase
