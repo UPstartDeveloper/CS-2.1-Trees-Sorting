@@ -86,9 +86,12 @@ class PrefixTree:
         with the given prefix string."""
         # Create a list of completions in prefix tree
         completions = []
+        # Make sure user is not looking for all strings
+        if prefix == '':
+            return self.strings()
         # init node to start traversal from
         node = self._find_node(prefix)[0]
-        # if node has an empty string, there are no completions to make
+        # if node has an empty string, there are no completions
         if node.character != '':
             self._traverse(node, prefix, completions.append)
         # add remove words equal to the prefix

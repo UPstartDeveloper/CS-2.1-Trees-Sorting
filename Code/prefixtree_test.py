@@ -161,6 +161,10 @@ class PrefixTreeTest(unittest.TestCase):
         tree.insert('XYZ')
         assert tree.size == 4
         assert tree.is_empty() is False
+        # Verify that size still increases by 1 when spaces included in string
+        tree.insert('WAFFLE TIME')
+        assert tree.size == 5
+        assert tree.is_empty() is False
 
     def test_size_with_repeated_insert(self):
         tree = PrefixTree()
@@ -232,11 +236,29 @@ class PrefixTreeTest(unittest.TestCase):
         assert tree.complete('X') == ['XYZ']
         assert tree.complete('Y') == []
         assert tree.complete('Z') == []
+        # Verify empty prefix string as input - aka "suggestions" feature
+        completions_with_empty_string = tree.complete('')
+        # Check length only
+        assert len(completions_with_empty_string) == len(strings)
+        # Ignore order
+        self.assertCountEqual(completions_with_empty_string, strings)
 
     def test_strings(self):
         tree = PrefixTree()
         input_strings = []  # Strings that have been inserted into the tree
         for string in ['ABC', 'ABD', 'A', 'XYZ']:  # Strings to be inserted
+            # Insert new string and add to list of strings already inserted
+            tree.insert(string)
+            input_strings.append(string)
+            # Verify tree can retrieve all strings that have been inserted
+            tree_strings = tree.strings()
+            assert len(tree_strings) == len(input_strings)  # Check length only
+            self.assertCountEqual(tree_strings, input_strings)  # Ignore order
+
+    def test_strings_when_string_include_spaces(self):
+        tree = PrefixTree()
+        input_strings = []  # Strings that have been inserted into the tree
+        for string in ['ABC', 'ABD', 'A', 'XYZ', "WAFFLE TIME"]:
             # Insert new string and add to list of strings already inserted
             tree.insert(string)
             input_strings.append(string)
