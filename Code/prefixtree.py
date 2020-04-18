@@ -60,7 +60,6 @@ class PrefixTree:
             current_node.terminal = True
             # increment size of the tree
             self.size += 1
-            # print('Size', self.size)
 
     def _find_node(self, string):
         """Return a pair containing the deepest node in this prefix tree that
@@ -69,7 +68,6 @@ class PrefixTree:
         Search is done iteratively with a loop starting from the root node."""
         # Match the empty string
         if len(string) == 0:
-            # print('No previous strings')
             return self.root, 0
         # Start with the root node
         node = self.root
@@ -79,7 +77,6 @@ class PrefixTree:
         while index < len(string) and node.has_child(string[index]) is True:
             # if it is, then move node to that child, and move to next char
             node = node.get_child(string[index])
-            # print('Moving to:', node, index, string)
             index += 1
         # return the pair of the node and the index
         return node, index
@@ -89,23 +86,18 @@ class PrefixTree:
         with the given prefix string."""
         # Create a list of completions in prefix tree
         completions = []
+        # init node to start traversal from
         node = self._find_node(prefix)[0]
-        self._traverse(node, prefix, completions.append)
+        # if node has an empty string, there are no completions to make
+        if node.character != '':
+            self._traverse(node, prefix, completions.append)
+        # add remove words equal to the prefix
         return completions
-        '''
-        # find the node that's as far down as possible given the prefix
-        node, index = self._find_node(prefix)
-        # build strings based off traversing all the children of this node
-        for child in node.children.keys():
-            suffix = ''
-            suffix = self._traverse()
-        '''
 
     def strings(self):
         """Return a list of all strings stored in this prefix tree."""
         # Create a list of all strings in prefix tree
         all_strings = []
-        # TODO
         self._traverse(self.root, '', all_strings.append)
         return all_strings
 
@@ -114,31 +106,15 @@ class PrefixTree:
         Start at the given node with the given prefix representing its path in
         this prefix tree and visit each node with the given visit function."""
         if node.is_terminal() is True and len(node.children) == 0:
-            return prefix
-        elif node.is_terminal() is True:
+            # add the prefix phrase we've built so far
             visit(prefix)
-            # return self._traverse(child, prefix + char, visit)
-        # else:
+        elif node.is_terminal() is True:
+            # add the prefix phrase we've built so far, and keep moving down
+            visit(prefix)
         for char in node.children.keys():
+            # move to the child node, continually build the string in traversal
             child = node.get_child(char)
             string = self._traverse(child, prefix + char, visit)
-            visit(string)
-
-        '''
-        # visit the current node
-        # visit(node)
-        # if node marks the end, return the prefix
-        if node.is_terminal() is True:
-            return prefix
-        else:
-            strings = []
-            # traverse down each of the children nodes
-            for char in node.children.keys():
-                child = node.get_child(char)
-                string = self._traverse(child, prefix + char, None)
-                strings.append(string)
-            return strings
-        '''
 
 
 def create_prefix_tree(strings):
@@ -190,9 +166,9 @@ def main():
     # Create a dictionary of tongue-twisters with similar words to test with
     tongue_twisters = {
         'Seashells': 'Shelly sells seashells by the sea shore'.split(),
-        # 'Peppers': 'Peter Piper picked a peck of pickled peppers'.split(),
-        # 'Woodchuck': ('How much wood would a wood chuck chuck'
-        #                ' if a wood chuck could chuck wood').split()
+        'Peppers': 'Peter Piper picked a peck of pickled peppers'.split(),
+        'Woodchuck': ('How much wood would a wood chuck chuck'
+                      ' if a wood chuck could chuck wood').split()
     }
     # Create a prefix tree with the similar words in each tongue-twister
     for name, strings in tongue_twisters.items():
