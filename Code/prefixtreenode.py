@@ -24,21 +24,37 @@ class PrefixTreeNode:
         self.terminal = False
 
     def is_terminal(self):
-        """Return True if this prefix tree node terminates a string."""
+        """Return True if this prefix tree node terminates a string.
+
+           Runtime Complexity: O(1)
+
+        """
         return (self.terminal is True)
 
     def num_children(self):
-        """Return the number of children nodes this prefix tree node has."""
+        """Return the number of children nodes this prefix tree node has.
+
+           Runtime Complexity: O(n)
+
+        """
         return len(self.children.keys())
 
     def has_child(self, character):
         """Return True if this prefix tree node has a child node that
-        represents the given character amongst its children."""
+           represents the given character amongst its children.
+
+           Runtime Complexity: O(n)
+
+        """
         return (character in self.children.keys())
 
     def get_child(self, character):
         """Return this prefix tree node's child node that represents the given
-        character if it is amongst its children, or raise ValueError if not."""
+           character if it is amongst its children, or raise ValueError if not.
+
+           Runtime Complexity: O(n)
+
+        """
         if self.has_child(character) is True:
             return self.children.get(character)
         else:
@@ -46,7 +62,11 @@ class PrefixTreeNode:
 
     def add_child(self, character, child_node):
         """Add the given character and child node as a child of this node, or
-        raise ValueError if given character is amongst this node's children."""
+           raise ValueError if given character is amongst this node's children.
+
+           Runtime Complexity: O(n)
+
+        """
         if self.has_child(character) is False:
             self.children[character] = child_node
         else:

@@ -5,15 +5,22 @@ from prefixtreenode import PrefixTreeNode
 
 class PrefixTree:
     """PrefixTree: A multi-way prefix tree that stores strings with efficient
-    methods to insert a string into the tree, check if it contains a matching
-    string, and retrieve all strings that start with a given prefix string.
-    Time complexity of these methods depends only on the number of strings
-    retrieved and their maximum length (size and height of subtree searched),
-    but is independent of the number of strings stored in the prefix tree, as
-    its height depends only on the length of the longest string stored in it.
-    This makes a prefix tree effective for spell-checking and autocompletion.
-    Each string is stored as a sequence of characters along a path from the
-    tree's root node to a terminal node that marks the end of the string."""
+       methods to insert a string into the tree, check if it contains a
+       matching string, and retrieve all strings that start with a given prefix
+       string.
+
+       Time complexity of these methods depends only on the number of strings
+       retrieved and their maximum length (size and height of subtree
+       searched), but is independent of the number of strings stored in the
+       prefix tree, as its height depends only on the length of the longest
+       string stored in it.
+
+       This makes a prefix tree effective for spell-checking and
+       autocompletion. Each string is stored as a sequence of characters along
+       a path from the tree's root node to a terminal node that marks the end
+       of the string.
+
+    """
 
     # Constant for the start character stored in the prefix tree's root node
     START_CHARACTER = ''
@@ -34,15 +41,40 @@ class PrefixTree:
         return f'PrefixTree({self.strings()!r})'
 
     def is_empty(self):
-        """Return True if this prefix tree is empty (contains no strings)."""
+        """Return True if this prefix tree is empty (contains no strings).
+
+           Runtime Complexity:
+           O(1), because the lookup and comparision
+           operations do not change in duration.
+
+        """
         return (self.size == 0)
 
     def contains(self, string):
-        """Return True if this prefix tree contains the given string."""
+        """Return True if this prefix tree contains the given string.
+
+           Runtime Complexity:
+           O(m * n), where n is the size of the trie and m is the length of
+           the string being searched. This runtime depends asymptotically on
+           the runtime of the string() method below.
+
+        """
         return (string in self.strings())
 
     def insert(self, string):
-        """Insert the given string into this prefix tree."""
+        """Insert the given string into this prefix tree.
+           Runtime Complexity:
+           O((nm) + (np)), where n is the size of the trie, m is the length of
+           string being searched, and p is the length of the string being
+           inserted. This runtime depends on calling the contains() method.
+           In the average case it will then also insert the new string, an
+           operation which the runtimedepends on thethe size of the trie
+           (i.e. the number of strings already being stored) because will
+           increase the time we spend looking amongst the children of the root
+           node. Also, this second step depends on the length of the new string
+           being added.
+
+        """
         # make sure the string not already in the tree
         if self.contains(string) is False:
             # find the node to start adding new letters from
@@ -63,9 +95,17 @@ class PrefixTree:
 
     def _find_node(self, string):
         """Return a pair containing the deepest node in this prefix tree that
-        matches the longest prefix of the given string and the node's depth.
-        The depth returned is equal to the number of prefix characters matched.
-        Search is done iteratively with a loop starting from the root node."""
+           matches the longest prefix of the given string and the node's depth.
+           The depth returned is equal to the number of prefix characters
+           matched. Search is done iteratively with a loop starting from the
+           root node.
+
+           Runtime Complexity:
+           The runtime of the is method linearly with the size of the string
+           being search. This can be expressed as O(m), where m is the length
+           of the longest string stored in the trie.
+
+        """
         # Match the empty string
         if len(string) == 0:
             return self.root, 0
@@ -83,7 +123,20 @@ class PrefixTree:
 
     def complete(self, prefix):
         """Return a list of all strings stored in this prefix tree that start
-        with the given prefix string."""
+           with the given prefix string.
+
+           Runtime Complexity:
+           The runtime of this method depends on the length of the prefix
+           given. If there are many possible strings to form based off the
+           prefix, then the runtime depends on O(n * (m - prefix)), where n is
+           the number of retrieved for completion, and (m - prefix)
+           represents the number of strings that are yet to be found in each
+           completed word. In the best case we are given a long prefix for the
+           longest string in the trie, so there less strings we need to create
+           completions of - in this case the runtime tends towards
+           O(m - prefix).
+
+        """
         # Create a list of completions in prefix tree
         completions = []
         # Make sure user is not looking for all strings
@@ -98,7 +151,17 @@ class PrefixTree:
         return completions
 
     def strings(self):
-        """Return a list of all strings stored in this prefix tree."""
+        """Return a list of all strings stored in this prefix tree.
+
+          Runtime Complexity:
+          This method performs a depth first traversal from the root, meaning
+          that will have to visit all the nodes. This number will depend on
+          the number of strings we have stored in the trie, as well as their
+          lengths. This runtime will therefore grow asymptotically on the order
+          of O(n * m), where n is the size of the trie, and m average length of
+          the strings.
+
+        """
         # Create a list of all strings in prefix tree
         all_strings = []
         self._traverse(self.root, '', all_strings.append)
@@ -106,8 +169,21 @@ class PrefixTree:
 
     def _traverse(self, node, prefix, visit):
         """Traverse this prefix tree with recursive depth-first traversal.
-        Start at the given node with the given prefix representing its path in
-        this prefix tree and visit each node with the given visit function."""
+           Start at the given node with the given prefix representing its path
+           in this prefix tree and visit each node with the given visit
+           function.
+
+           Runtime Complexity:
+           The runtime of this method grows with respect to the number of
+           strings we need to traverse, as well as the length of each of the
+           strings. This will be give or take O(m * n), where m is the length
+           of the longest string, and n is the number of retrieved strings.
+           In the best case, the prefixes in the longest string will actually
+           be the other, smaller strings, which will decrease the runtime by
+           reducing the number of times we need to recursively invoke this
+           method. In that scenario, the runtime tends towards O(m).
+
+        """
         if node.is_terminal() is True and len(node.children) == 0:
             # add the prefix phrase we've built so far
             visit(prefix)
