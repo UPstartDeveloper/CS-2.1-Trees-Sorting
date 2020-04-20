@@ -195,6 +195,24 @@ class PrefixTree:
             child = node.get_child(char)
             string = self._traverse(child, prefix + char, visit)
 
+    def delete(self, key):
+        """Removes all nodes containing letters of the given key to delete.
+           Other keys whose keys are destroyed in the process are then
+           re-inserted.
+
+           Parameters:
+           key(str): the entry being deleted from the trie.
+
+           Returns: None
+
+           Complexity Analysis: TBD
+
+        """
+        # get all completions for the first letter of key being deleted
+        # remove all nodes whose letters are related to the key being deleted
+        # re-insert nodes for other words that may have been also deleted
+        # decrease size of the trie - adjust for additions made while inserting
+
 
 def create_prefix_tree(strings):
     print(f'strings: {strings}')
