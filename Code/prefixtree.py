@@ -208,7 +208,20 @@ class PrefixTree:
            Complexity Analysis: TBD
 
         """
-        pass
+        if self.contains(key) is True:
+            # get all completions for the first letter of key being deleted
+            first_letter = key[0]
+            related_words = self.complete(first_letter)
+            # remove all nodes whose letters are related to the key
+            del self.root.children[first_letter]
+            # re-insert nodes for other words that may have been also deleted
+            for word in related_words:
+                if not word == key:
+                    self.insert(word)
+            # decrease size - adjust for additions made in reinsertion
+            self.size -= len(related_words)
+        else:  # key is not actually in the prefix tree
+            raise ValueError('Word is not found and cannot be deleted.')
 
 
 def create_prefix_tree(strings):

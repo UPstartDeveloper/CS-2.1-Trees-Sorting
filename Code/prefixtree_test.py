@@ -280,10 +280,10 @@ class PrefixTreeTest(unittest.TestCase):
         # test the length of trie is adjusted correctly
         assert tree.size == len(input) - 1
         # test all the other strings with common nodes can still be found
-        assert self.contains('ABC') is True
-        assert self.contains('ABD') is True
+        assert tree.contains('ABC') is True
+        assert tree.contains('ABD') is True
         # test that the deleted string cannot be found
-        assert self.contains('A') is False
+        assert tree.contains('A') is False
 
     def test_delete_from_empty_trie(self):
         """
@@ -291,8 +291,9 @@ class PrefixTreeTest(unittest.TestCase):
         """
         # Make the tree
         tree = PrefixTree()
-        # riase Exception
-        self.assertRaises(self.delete('Hello'), ValueError)
+        # raise Exception
+        with self.assertRaises(ValueError):
+            tree.delete('CS Rocks!')
 
 
 if __name__ == '__main__':
