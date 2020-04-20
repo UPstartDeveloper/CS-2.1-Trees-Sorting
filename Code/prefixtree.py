@@ -65,10 +65,11 @@ class PrefixTree:
         """Insert the given string into this prefix tree.
            Runtime Complexity:
            O((nm) + (np)), where n is the size of the trie, m is the length of
-           string being searched, and p is the length of the string being
-           inserted. This runtime depends on calling the contains() method.
+           string being searched as we look for a duplicate, and p is the
+           length of the string being nserted. This runtime depends on calling
+           the contains() method.
            In the average case it will then also insert the new string, an
-           operation which the runtimedepends on thethe size of the trie
+           operation which the runtime depends on thethe size of the trie
            (i.e. the number of strings already being stored) because will
            increase the time we spend looking amongst the children of the root
            node. Also, this second step depends on the length of the new string
@@ -83,7 +84,6 @@ class PrefixTree:
             for i in range(index, len(string)):
                 # returned, add a new child node of the node returned
                 next_char = string[i]
-                # print(next_char)
                 new_node = PrefixTreeNode(next_char)
                 current_node.add_child(next_char, new_node)
                 # then move the current node to its child
@@ -205,21 +205,37 @@ class PrefixTree:
 
            Returns: None
 
-           Complexity Analysis: TBD
+           Complexity Analysis:
+           The runtime of this method asymptotically increases with the time it
+           takes to re-insert all the other strings sharing a prefix with the
+           key being deleted. This can be expressed in Big O notation as
+           O(c * n * (m + p)), where c is the amount of words being
+           re-inserted,
+           n is the size of the trie,
+           m is the length of string being searched as we look for duplicates,
+           and p is the length of the string being inserted.
+           In this implementation these steps all happen under the hood during
+           our for loop, when the .insert(), .contains(), and ._find_node() are
+           all used as helper methods.
+
+           In the best case there are no strings that share the same prefix as
+           the key being deleted. In this case the longest running step is
+           still only O(m * n), which occurs at the beginning in order to check
+           that the key being deleted can even be found in the prefix tree.
 
         """
-        if self.contains(key) is True:
+        if self.contains(key) is True:  # O(m * n)
             # get all completions for the first letter of key being deleted
             first_letter = key[0]
-            related_words = self.complete(first_letter)
+            related_words = self.complete(first_letter)  # O(n * (m - 1))
             # remove all nodes whose letters are related to the key
-            del self.root.children[first_letter]
+            del self.root.children[first_letter]  # O(1)
             # re-insert nodes for other words that may have been also deleted
-            for word in related_words:
-                if not word == key:
-                    self.insert(word)
+            for word in related_words:  # c - 1 iterations
+                if not word == key:  # O(1)
+                    self.insert(word)  # O((nm) + (np))
             # decrease size - adjust for additions made in reinsertion
-            self.size -= len(related_words)
+            self.size -= len(related_words)  # O(1)
         else:  # key is not actually in the prefix tree
             raise ValueError('Word is not found and cannot be deleted.')
 
