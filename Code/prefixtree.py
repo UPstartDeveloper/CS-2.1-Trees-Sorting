@@ -207,35 +207,25 @@ class PrefixTree:
 
            Complexity Analysis:
            The runtime of this method asymptotically increases with the time it
-           takes to re-insert all the other strings sharing a prefix with the
-           key being deleted. This can be expressed in Big O notation as
-           O(c * n * (m + p)), where c is the amount of words being
-           re-inserted,
-           n is the size of the trie,
-           m is the length of string being searched as we look for duplicates,
-           and p is the length of the string being inserted.
-           In this implementation these steps all happen under the hood during
-           our for loop, when the .insert(), .contains(), and ._find_node() are
-           all used as helper methods.
-
-           In the best case there are no strings that share the same prefix as
-           the key being deleted. In this case the longest running step is
-           still only O(m * n), which occurs at the beginning in order to check
-           that the key being deleted can even be found in the prefix tree.
+           takes to check all strings in the tree, so that we know that the key
+           is even a valid input. After that, we must also traverse the key to
+           set the .terminal property of its last node to False, so that the
+           whole string will no longer be found during depth first searches.
+           The runtime of the second step asymptotically grows with the length
+           of the key being deleted. Overall the runtime of this method can be
+           expressed as O(k + (n * m)), where k is the length of the string
+           being deleted, and (n * m) represents the time it takes to check if
+           the input string is contained within the trie. In the worst case
+           scenario, the key (aka string) being deleted is also the longest
+           string in the data structure.
 
         """
         if self.contains(key) is True:  # O(m * n)
-            # get all completions for the first letter of key being deleted
-            first_letter = key[0]
-            related_words = self.complete(first_letter)  # O(n * (m - 1))
-            # remove all nodes whose letters are related to the key
-            del self.root.children[first_letter]  # O(1)
-            # re-insert nodes for other words that may have been also deleted
-            for word in related_words:  # c - 1 iterations
-                if not word == key:  # O(1)
-                    self.insert(word)  # O((nm) + (np))
-            # decrease size - adjust for additions made in reinsertion
-            self.size -= len(related_words)  # O(1)
+            # set the node at the end of key no longer signal end of a node
+            last_letter = self._find_node(key[-1])[0]  # O(m)
+            last_letter.terminal = False
+            # decrement size of tree
+            self.size -= 1
         else:  # key is not actually in the prefix tree
             raise ValueError('Word is not found and cannot be deleted.')
 
