@@ -267,6 +267,33 @@ class PrefixTreeTest(unittest.TestCase):
             assert len(tree_strings) == len(input_strings)  # Check length only
             self.assertCountEqual(tree_strings, input_strings)  # Ignore order
 
+    def test_delete_key_shares_prefix_with_other_strings(self):
+        """
+        A string is deleted from the trie without removing strings that contain
+        the same prefix.
+        """
+        # Make the tree
+        input = ['ABC', 'ABD', 'A', 'XYZ', "WAFFLE TIME"]
+        tree = PrefixTree(input)
+        # Remove a string who shares letters with other strings
+        tree.delete('A')
+        # test the length of trie is adjusted correctly
+        assert tree.size == len(input) - 1
+        # test all the other strings with common nodes can still be found
+        assert self.contains('ABC') is True
+        assert self.contains('ABD') is True
+        # test that the deleted string cannot be found
+        assert self.contains('A') is False
+
+    def test_delete_from_empty_trie(self):
+        """
+        If string cannot be found, a ValueError is raised.
+        """
+        # Make the tree
+        tree = PrefixTree()
+        # riase Exception
+        self.assertRaises(self.delete('Hello'), ValueError)
+
 
 if __name__ == '__main__':
     unittest.main()

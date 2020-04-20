@@ -208,10 +208,7 @@ class PrefixTree:
            Complexity Analysis: TBD
 
         """
-        # get all completions for the first letter of key being deleted
-        # remove all nodes whose letters are related to the key being deleted
-        # re-insert nodes for other words that may have been also deleted
-        # decrease size of the trie - adjust for additions made while inserting
+        pass
 
 
 def create_prefix_tree(strings):
