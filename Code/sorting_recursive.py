@@ -19,7 +19,7 @@ def merge(items1, items2):
     """
     # make a new list
     merged = list()
-    # track idices in both lists of items
+    # track index positions in both lists of items
     index1, index2 = 0, 0
     # sequence the elements from both items lists
     while index1 < len(items1) and index2 < len(items2):
@@ -83,11 +83,10 @@ def merge_sort(items):
 
        Running time: O(n log(n)), where n is the number of items.
                      The runtime of this function is asymptotically determined
-                     by the number of times an append operation must be
-                     performed, in order to merge the elements in sorted order
-                     into the array returned by the merge() helper function.
-                     We have to perform the append operation for each of p
-                     elements, and repeat that step log(p) times, as we merge
+                     by the algorithm and repetitions of the merge function,
+                     in order to combine the elements in sorted order.
+                     We have to perform the append operation for each of n
+                     elements, and repeat that step log(n) times, as we merge
                      subsequently larger sub-arrays all back into one.
 
        Memory usage: O(n), due to the fact we need to depend on the merge()
