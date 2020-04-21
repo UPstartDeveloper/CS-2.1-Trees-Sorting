@@ -1,4 +1,5 @@
 #!python
+from search import binary_search_recursive
 tuple = type(())
 str = type('')
 
@@ -279,3 +280,27 @@ def cocktail_shaker_sort(items):
             break
         # slowly move marker for where sorted portion of items being
         sorted_right -= 1
+
+
+def insertion_sort_using_binary_search(items):
+    """Sort given items by taking first unsorted item, inserting it in sorted
+       order in front of items, and repeating until all items are in order.
+       Parameters:
+       items(list)
+       Running time: TBD
+
+       Memory usage: TBD
+
+    """
+    # perform as many as n - 1 insertions (n is number of items)
+    next_index = 1
+    while next_index < len(items):
+        # figure out the index where the insertion must occur
+        insert_item = items[next_index]
+        insert_at = binary_search_recursive(items, insert_item, 0, next_index)
+        # make the insertion
+        items.insert(insert_at, insert_item)
+        # remove original element
+        items.pop(next_index + 1)
+        # move on to the next index
+        next_index += 1

@@ -6,6 +6,7 @@ from sorting_iterative import (
     bubble_sort,
     selection_sort,
     insertion_sort,
+    insertion_sort_using_binary_search,
     cocktail_shaker_sort
 )
 from sorting_recursive import (
@@ -349,7 +350,7 @@ def get_sort_function():
 
 
 # If using PyTest, change this variable to the sort function you want to test
-sort = bucket_sort
+sort = insertion_sort_using_binary_search
 
 
 if __name__ == '__main__':
