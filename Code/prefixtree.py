@@ -59,7 +59,7 @@ class PrefixTree:
            the runtime of the string() method below.
 
         """
-        return (string in self.strings())
+        return string in self.strings()
 
     def insert(self, string):
         """Insert the given string into this prefix tree.
@@ -222,8 +222,8 @@ class PrefixTree:
         """
         if self.contains(key) is True:  # O(m * n)
             # set the node at the end of key no longer signal end of a node
-            last_letter = self._find_node(key[-1])[0]  # O(m)
-            last_letter.terminal = False
+            last_node, depth = self._find_node(key[-1])  # O(m)
+            last_node.terminal = False
             # decrement size of tree
             self.size -= 1
         else:  # key is not actually in the prefix tree
