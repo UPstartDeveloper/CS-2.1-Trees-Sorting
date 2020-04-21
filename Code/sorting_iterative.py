@@ -261,8 +261,16 @@ def cocktail_shaker_sort(items):
        items(list): elements of any data type, duplicates are possible.
 
        Returns: None
+
+       Complexity Analysis:
+       The runtime complexity of this method is O(n^2). On the average case it
+       will not be significantly different from that of regular bubble sort,
+       because although we decreased the number of passes in the while
+       loop, per each pass we have increased the number of comparisons made.
+
+       Like bubble sort we still sorting in place, so space complexity is O(1).
+
     """
-    sort_one_element(items)
     # everything to the right of this index is assumed to be sorted
     sorted_right = len(items)
     while sorted_right > 0:
@@ -287,9 +295,24 @@ def insertion_sort_using_binary_search(items):
        order in front of items, and repeating until all items are in order.
        Parameters:
        items(list)
-       Running time: TBD
 
-       Memory usage: TBD
+       Returns: None
+
+       Running time: O(n^2), because just like in the implementation of
+       insertion sort above, we need to perform (n - 1) iterations through the
+       list. Although we have decreased the time need to find the correct index
+       to insert the next element, the longest step is still performing the
+       insertion itself. This is because the built-in Python list data type
+       is used, which is a dynamic array under the hood.
+
+       Memory usage: We are no longer confining ourselves to just local
+       variables. The space of this method scales with the maximum
+       number of stack frames pushed onto the call stack, by using recursive
+       binary search. In the worst case this increases our memory usage to
+       O(log n). This occurs when the input is in reverse sorted order.
+       Because this implementation currently iterates the array indices in
+       ascending order, it will need the maximum number of stack frames to
+       determine the correct index of the item at the end.
 
     """
     # perform as many as n - 1 insertions (n is number of items)
