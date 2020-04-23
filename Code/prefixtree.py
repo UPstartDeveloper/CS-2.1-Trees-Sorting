@@ -291,5 +291,10 @@ def main():
             print('\n' + '='*80 + '\n')
 
 
+class RadixTree(PrefixTree):
+    '''A compact prefix tree.'''
+    pass
+
+
 if __name__ == '__main__':
     main()
