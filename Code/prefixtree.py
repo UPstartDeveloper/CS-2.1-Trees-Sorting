@@ -54,12 +54,13 @@ class PrefixTree:
         """Return True if this prefix tree contains the given string.
 
            Runtime Complexity:
-           O(m * n), where n is the size of the trie and m is the length of
-           the string being searched. This runtime depends asymptotically on
-           the runtime of the string() method below.
+           O(m), where m is the length of the string being searched.
+           The runtime of this method scales asymptotically on the time it
+           takes to traverse the tree, down the path of its longest string.
 
         """
-        return string in self.strings()
+        node, length = self._find_node(string)
+        return length == len(string) and node.is_terminal()
 
     def insert(self, string):
         """Insert the given string into this prefix tree.
