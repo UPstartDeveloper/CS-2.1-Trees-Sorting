@@ -125,18 +125,34 @@ class BinaryMinHeap(object):
         # Get the index of the item's left and right children
         left_index = self._left_child_index(index)
         right_index = self._right_child_index(index)
-        if left_index > self._last_index():
+        last = self._last_index()
+        if left_index > last:
             return  # This index is a leaf node (does not have any children)
         # Get the item's value
         item = self.items[index]
         # TODO: Determine which child item to compare this node's item to
         child_index = 0
-        # ...
+        # check if indicies valid first
+        if left_index <= last and right_index <= last:
+            if self.items[left_index] < self.items[right_index]:
+                child_index = left_index
+            else:  # left child is greater than or equal to right child
+                child_index = right_index
+        elif right_index <= last:  # check if item needs to be swapped right
+            child_index = right_index
         # TODO: Swap this item with a child item if values are out of order
         child_item = self.items[child_index]
-        # ...
-        # TODO: Recursively bubble down again if necessary
-        # ...
+        if item > child_item:
+            self.items[index], self.items[child_index] = child_item, item
+            # print(self.items)
+            # TODO: Recursively bubble down again if necessary
+            if child_index >= 0 and child_index < last:
+                new_left = self._left_child_index(child_index)
+                new_right = self._right_child_index(child_index)
+                if new_left <= last and item > self.items[new_left]:
+                    return self._bubble_down(child_index)
+                if new_right <= last and item > self.items[new_right]:
+                    return self._bubble_down(child_index)
 
     def _last_index(self):
         """Return the last valid index in the underlying array of items."""

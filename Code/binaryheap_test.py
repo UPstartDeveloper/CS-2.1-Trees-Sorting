@@ -66,8 +66,9 @@ class TestBinaryMinHeap(unittest.TestCase):
             min_item = heap.delete_min()
             print(f'Min item: {min_item}')
             print(f'Test Item: {item}')
-            assert heap.delete_min() == item
+            assert min_item == item
             print(f'Equal on iteration: {i}')
+            print(f'Heap items: {heap.items}')
             i += 1
         assert heap.size() == 0
 
@@ -76,9 +77,17 @@ class TestBinaryMinHeap(unittest.TestCase):
         items = random.sample(range(1000), 50)
         for item in items:
             heap.insert(item)
+        print(f'Heap items (before deleting): {heap.items}')
         assert heap.size() == len(items)
+        i = 0
         for item in sorted(items):
-            assert heap.delete_min() == item
+            min_item = heap.delete_min()
+            print(f'Min item: {min_item}')
+            print(f'Test Item: {item}')
+            assert min_item == item
+            print(f'Equal on iteration: {i}')
+            print(f'Heap items: {heap.items}')
+            i += 1
         assert heap.size() == 0
 
     def test_parent_index(self):
