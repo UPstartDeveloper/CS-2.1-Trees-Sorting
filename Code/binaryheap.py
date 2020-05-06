@@ -3,9 +3,13 @@
 
 class BinaryMinHeap(object):
     """BinaryMinHeap: a partially ordered collection with efficient methods to
-    insert new items in partial order and to access and remove its minimum item.
-    Items are stored in a dynamic array that implicitly represents a complete
-    binary tree with root node at index 0 and last leaf node at index n-1."""
+       insert new items in partial order and to access and remove its minimum
+       item.
+       Items are stored in a dynamic array that implicitly represents a
+       complete binary tree with root node at index 0 and last leaf node at
+       index n-1.
+
+    """
 
     def __init__(self, items=None):
         """Initialize this heap and insert the given items, if any."""
@@ -21,8 +25,7 @@ class BinaryMinHeap(object):
 
     def is_empty(self):
         """Return True if this heap is empty, or False otherwise."""
-        # TODO: Check if empty based on how many items are in the list
-        # ...
+        return len(self.items) == 0
 
     def size(self):
         """Return the number of items in this heap."""
@@ -95,9 +98,21 @@ class BinaryMinHeap(object):
         parent_index = self._parent_index(index)
         parent_item = self.items[parent_index]
         # TODO: Swap this item with parent item if values are out of order
-        # ...
+        if item < parent_item:
+            self.items[index], self.items[parent_index] = parent_item, item
         # TODO: Recursively bubble up again if necessary
-        # ...
+            # print(parent_index)
+            # print(self.items)
+            # print(self.items)
+            if parent_index > 0:
+                new_parent_index = self._parent_index(parent_index)
+                if item < self.items[new_parent_index]:
+                    print('I came here')
+                    self._bubble_up(parent_index)
+        print(self.items)
+        # parent_index = self._parent_index(index)
+        # parent_item = self.items[parent_index]
+        # self._bubble_up(parent_index)
 
     def _bubble_down(self, index):
         """Ensure the heap ordering property is true below the given index,

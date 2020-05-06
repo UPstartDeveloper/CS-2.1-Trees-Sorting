@@ -61,8 +61,14 @@ class TestBinaryMinHeap(unittest.TestCase):
         for item in items:
             heap.insert(item)
         assert heap.size() == len(items)
+        i = 0
         for item in sorted(items):
+            min_item = heap.delete_min()
+            print(f'Min item: {min_item}')
+            print(f'Test Item: {item}')
             assert heap.delete_min() == item
+            print(f'Equal on iteration: {i}')
+            i += 1
         assert heap.size() == 0
 
     def test_insert_and_delete_many_random_items(self):
