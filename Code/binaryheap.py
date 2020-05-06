@@ -97,22 +97,15 @@ class BinaryMinHeap(object):
         # Get the parent's index and value
         parent_index = self._parent_index(index)
         parent_item = self.items[parent_index]
-        # TODO: Swap this item with parent item if values are out of order
+        # Swap this item with parent item if values are out of order
         if item < parent_item:
             self.items[index], self.items[parent_index] = parent_item, item
-        # TODO: Recursively bubble up again if necessary
-            # print(parent_index)
-            # print(self.items)
-            # print(self.items)
+        # Recursively bubble up again if necessary
             if parent_index > 0:
                 new_parent_index = self._parent_index(parent_index)
                 if item < self.items[new_parent_index]:
                     print('I came here')
                     self._bubble_up(parent_index)
-        print(self.items)
-        # parent_index = self._parent_index(index)
-        # parent_item = self.items[parent_index]
-        # self._bubble_up(parent_index)
 
     def _bubble_down(self, index):
         """Ensure the heap ordering property is true below the given index,
@@ -130,29 +123,17 @@ class BinaryMinHeap(object):
             return  # This index is a leaf node (does not have any children)
         # Get the item's value
         item = self.items[index]
-        # TODO: Determine which child item to compare this node's item to
-        child_index = 0
+        # Determine which child item to compare this node's item to
+        child_index = left_index
         # check if indicies valid first
-        if left_index <= last and right_index <= last:
-            if self.items[left_index] < self.items[right_index]:
-                child_index = left_index
-            else:  # left child is greater than or equal to right child
+        if right_index <= last:
+            if self.items[right_index] < self.items[left_index]:
                 child_index = right_index
-        elif right_index <= last:  # check if item needs to be swapped right
-            child_index = right_index
-        # TODO: Swap this item with a child item if values are out of order
+        # Swap this item with a child item if values are out of order
         child_item = self.items[child_index]
         if item > child_item:
             self.items[index], self.items[child_index] = child_item, item
-            # print(self.items)
-            # TODO: Recursively bubble down again if necessary
-            if child_index >= 0 and child_index < last:
-                new_left = self._left_child_index(child_index)
-                new_right = self._right_child_index(child_index)
-                if new_left <= last and item > self.items[new_left]:
-                    return self._bubble_down(child_index)
-                if new_right <= last and item > self.items[new_right]:
-                    return self._bubble_down(child_index)
+            return self._bubble_down(child_index)
 
     def _last_index(self):
         """Return the last valid index in the underlying array of items."""
