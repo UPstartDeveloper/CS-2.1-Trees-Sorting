@@ -193,6 +193,50 @@ def test_binary_min_heap():
         print('size: {}'.format(heap.size()))
 
 
+def sift_down(items, index):
+    """Ensure the heap ordering property is true below the given index,
+    swapping out of order items, or until a leaf node is reached.
+    Best case running time: O(1) if item is smaller than both child items.
+    Worst case running time: O(log n) if items on path down to a leaf are
+    out of order. Maximum path length in complete binary tree is log n.
+    """
+    last = len(items) - 1
+    if not (0 <= index <= last):
+        raise IndexError('Invalid index: {}'.format(index))
+    # Get the index of the item's left and right children
+    left_index = (index << 1) + 1
+    right_index = (index << 1) + 2
+    if left_index > last:
+        return  # This index is a leaf node (does not have any children)
+    # Get the item's value
+    item = items[index]
+    # Determine which child item to compare this node's item to
+    child_index = left_index
+    # check if indicies valid first
+    if right_index <= last:
+        if items[right_index] < items[left_index]:
+            child_index = right_index
+    # Swap this item with a child item if values are out of order
+    child_item = items[child_index]
+    if item > child_item:
+        items[index], items[child_index] = child_item, item
+        return sift_down(items, child_index)
+
+
+def heapify(items):
+    """Returns an array with elements such that they satisfy the heap ordering
+       property.
+
+    """
+    # start at parent node
+    index = (len(items) - 2) >> 1
+    # Move elements into the appropiate index
+    while index >= 0:
+        sift_down(items, index)
+        index -= 1
+    return items
+
+
 def heap_sort(items):
     """Implement the Heap Sort algorithm. To 'heapify' the array, an instance
        of BinaryMinHeap is created.
