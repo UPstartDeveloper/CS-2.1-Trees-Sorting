@@ -1,6 +1,6 @@
 #!python
 
-from binaryheap import BinaryMinHeap
+from binaryheap import BinaryMinHeap, heapify
 import random
 import unittest
 
@@ -111,6 +111,16 @@ class TestBinaryMinHeap(unittest.TestCase):
         assert heap._right_child_index(5) == 12
         assert heap._left_child_index(6) == 13
         assert heap._right_child_index(6) == 14
+
+
+class TestMinHeapify(unittest.TestCase):
+    def test_heapify_on_small_array(self):
+        '''Compare the output of heapify to creating a BinaryMinHeap.'''
+        items = [6, 8, 3, 5, 7, 3]
+        heap = BinaryMinHeap(items)
+        items = heapify(items)
+        for i, j in zip(items, heap.items):
+            assert i == j
 
 
 if __name__ == '__main__':
