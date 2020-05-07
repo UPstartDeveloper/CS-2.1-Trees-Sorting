@@ -118,7 +118,6 @@ class BinaryMinHeap(object):
             if parent_index > 0:
                 new_parent_index = self._parent_index(parent_index)
                 if item < self.items[new_parent_index]:
-                    print('I came here')
                     self._bubble_up(parent_index)
 
     def _bubble_down(self, index):
@@ -247,7 +246,7 @@ def heap_sort(items):
     # return the minimum elements into each index of items
     for i in range(len(items)):
         items[i] = heap.delete_min()
-    return heap
+    return None
 
 
 if __name__ == '__main__':
