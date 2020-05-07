@@ -33,8 +33,12 @@ class BinaryMinHeap(object):
 
     def insert(self, item):
         """Insert the given item into this heap.
-        TODO: Best case running time: ??? under what conditions?
-        TODO: Worst case running time: ??? under what conditions?"""
+           Best case running time: O(1), if the item is the largest element so
+                                   far in the heap
+           Worst case running time: O(log(n)), if the item is the smallest
+                                    element so far in the heap
+
+        """
         # Insert the item at the end and bubble up to the root
         self.items.append(item)
         if self.size() > 1:
@@ -50,8 +54,12 @@ class BinaryMinHeap(object):
 
     def delete_min(self):
         """Remove and return the minimum item at the root of this heap.
-        TODO: Best case running time: ??? under what conditions?
-        TODO: Worst case running time: ??? under what conditions?"""
+           Best case running time: O(1), whenever the size of self.items is
+                                   less than or equal to one
+           Worst case running time: O(log(n) in all other cases in which
+                                    self._bubble_down is invoked.
+
+        """
         if self.size() == 0:
             raise ValueError('Heap is empty and has no minimum item')
         elif self.size() == 1:
@@ -68,10 +76,16 @@ class BinaryMinHeap(object):
 
     def replace_min(self, item):
         """Remove and return the minimum item at the root of this heap,
-        and insert the given item into this heap.
-        This method is more efficient than calling delete_min and then insert.
-        TODO: Best case running time: ??? under what conditions?
-        TODO: Worst case running time: ??? under what conditions?"""
+           and insert the given item into this heap.
+           This method is more efficient than calling delete_min and then
+           insert.
+           Best case running time: O(1), if the item passed in is less than or
+                                   equal to the current minimum.
+
+           Worst case running time: O(log n), if the item is the element so far
+                                    in the whole heap.
+
+        """
         if self.size() == 0:
             raise ValueError('Heap is empty and has no minimum item')
         assert self.size() > 0
