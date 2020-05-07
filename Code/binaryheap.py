@@ -179,5 +179,18 @@ def test_binary_min_heap():
         print('size: {}'.format(heap.size()))
 
 
+def heap_sort(items):
+    """Implement the Heap Sort algorithm. To 'heapify' the array, an instance
+       of BinaryMinHeap is created.
+
+    """
+    # heapify the array
+    heap = BinaryMinHeap(items)
+    # return the minimum elements into each index of items
+    for i in range(len(items)):
+        items[i] = heap.delete_min()
+    return heap
+
+
 if __name__ == '__main__':
     test_binary_min_heap()
